@@ -1,12 +1,12 @@
-@extends('admin/master');
+@extends('admin/layouts/master');
 
 @section('content')
 <div class="container mt-4">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 p-3">
             <!-- Category navigation -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h3 class="mb-0">Categories</h3>
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h3 class="mb-0 ">Categories</h3>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">Add New Category</button>
             </div>
 
@@ -26,12 +26,13 @@
                     @isset($categories)
                         @foreach ($categories as $category)
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">{{$category->id}}</th>
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->created_at }}</td>
                             <td>{{ $category->updated_at }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editCategoryModal" value="">Edit</button>
+                                <a class="btn btn-primary" href="{{route('admin.categories.edit', $category->id)}}">Edit</a>
+                                
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCategoryModal">Delete</button>
                             </td>
                         </tr>
@@ -54,7 +55,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="addCategoryForm" method="POST" action="{{ route('category.create') }}">
+            <form id="addCategoryForm" method="POST" action="{{ route('admin.categories.create') }}">
                 @csrf
                 <div class="modal-body">
                   <div class="form-group">
@@ -111,7 +112,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                 <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     </div>

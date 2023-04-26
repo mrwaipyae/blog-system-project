@@ -1,29 +1,5 @@
-@extends('admin/master');
-@section('script')
-<script type="module" src="{{ asset('js/ckeditor.js') }}"></script>
+@extends('admin/layouts/master');
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-@endsection
-<script>
-    import UploadAdapter from "@ckeditor/ckeditor5-upload/src/uploadadapter";
-ClassicEditor.builtinPlugins = [
-    // Other plugins here
-    UploadAdapter,
-];
-
-ClassicEditor.create(document.querySelector("#editor"), {
-    // Other editor configuration here
-    ckfinder: {
-        uploadUrl: "/your-upload-url",
-    },
-    // Add this line to configure the file upload adapter
-    uploadAdapter: {
-        adapter: require("@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter"),
-    },
-});
-
-</script>
 @section('content')
      <!-- Post navigation -->
   <div class="row mb-5 mt-2">

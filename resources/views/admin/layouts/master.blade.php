@@ -22,12 +22,12 @@
             <div class="col-md-2 bg-brown text-white">
                 <div class="text-center pt-2">
                     <img src="{{url('images/admin.jpg')}}" alt="" class="img img-fluid img-thumbnail accountImg" width="90">
-                    <p class="text-center">Admin_Name</p>
+                    <p class="text-center">John Doe</p>
                 </div>                
                 <nav class="adminNav">
-                    <a href="#"><i class="bi bi-house me-1"></i>Dashboard</a>
+                    <a href="{{url('/')}}"><i class="bi bi-house me-1"></i>Dashboard</a>
                     <a href="{{url('admin/posts')}}"><i class="bi bi-clipboard-check me-1"></i>Post Management</a>
-                    <a href="{{route('admin.categories')}}"><i class="bi bi-plus-circle me-1"></i>Category Management</a>
+                    <a href="{{route('admin.categories.index')}}"><i class="bi bi-plus-circle me-1"></i>Category Management</a>
                     <a href="#"><i class="bi bi-key me-1"></i>User Management</a>
                     <a href="#"><i class="bi bi-brush me-1"></i>Tag management</a>
                     <a href="#"><i class="bi bi-justify me-1"></i>Reports</a>
