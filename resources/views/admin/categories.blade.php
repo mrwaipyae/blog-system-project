@@ -16,26 +16,28 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Technology</td>
-                        <td>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editCategoryModal">Edit</button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCategoryModal">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Health</td>
-                        <td>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editCategoryModal">Edit</button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCategoryModal">Delete</button>
-                        </td>
-                    </tr>
+                    
+                    @isset($categories)
+                        @foreach ($categories as $category)
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>{{ $category->name }}</td>
+                            <td>{{ $category->created_at }}</td>
+                            <td>{{ $category->updated_at }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editCategoryModal" value="">Edit</button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCategoryModal">Delete</button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endisset
+                    
                 </tbody>
             </table>
         </div>
@@ -52,18 +54,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="categoryName">Category Name</label>
-                        <input type="text" class="form-control" id="categoryName" placeholder="Enter category name">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <form id="addCategoryForm" method="POST" action="{{ route('category.create') }}">
+                @csrf
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter category name">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
         </div>
     </div>
 </div>

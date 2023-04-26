@@ -26,7 +26,7 @@
                 </div>                
                 <nav class="adminNav">
                     <a href="#"><i class="bi bi-house me-1"></i>Dashboard</a>
-                    <a href="{{route('admin.posts')}}"><i class="bi bi-clipboard-check me-1"></i>Post Management</a>
+                    <a href="{{url('admin/posts')}}"><i class="bi bi-clipboard-check me-1"></i>Post Management</a>
                     <a href="{{route('admin.categories')}}"><i class="bi bi-plus-circle me-1"></i>Category Management</a>
                     <a href="#"><i class="bi bi-key me-1"></i>User Management</a>
                     <a href="#"><i class="bi bi-brush me-1"></i>Tag management</a>

@@ -17,11 +17,12 @@ return new class extends Migration
             $table->longText('content');
             $table->string('image')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->boolean('is_published')->default(false);
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('is_published')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

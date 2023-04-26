@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,17 +15,23 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+
+Route::get('admin/categories', [CategoryController::class, 'index'])->name('admin.categories');
+
+Route::post('category/create',[CategoryController::class,'store'])->name('category.create');
+
+
 Route::get('/', function () {
-    return view('admin/master');
+    return view('admin/master');    
 });
 
 Route::get('/admin/posts',function(){
     return view('admin/posts');
-})->name('admin.posts');
+})->name('admin.posts');        
 
-Route::get('/admin/categories',function(){
-    return view('admin/categories');
-})->name('admin.categories');
+// Route::get('/admin/categories',function(){
+//     return view('admin/categories');
+// })->name('admin.categories');
 
 Auth::routes();
 
