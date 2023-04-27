@@ -42,9 +42,11 @@ class CategoryController extends Controller
         return redirect('admin/categories/');
     }
 
-    public function destroy(Category $category)
-    {
-        $category->delete();
-        return redirect()->back();
-    }
+    public function destroy($id)
+{
+    $category = Category::findOrFail($id);
+    $category->delete();
+    return redirect()->back();
+}
+
 }

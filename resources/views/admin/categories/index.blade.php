@@ -1,4 +1,4 @@
-@extends('admin/layouts/master');
+@extends('admin/layouts/master')
 
 @section('content')
 <div class="container mt-4">
@@ -22,18 +22,24 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $no = 1;
+                    @endphp 
                     
                     @isset($categories)
                         @foreach ($categories as $category)
                         <tr>
-                            <th scope="row">{{$category->id}}</th>
+                            <th scope="row">{{$no++}}</th>
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->created_at }}</td>
                             <td>{{ $category->updated_at }}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('admin.categories.edit', $category->id)}}">Edit</a>
-                                
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCategoryModal">Delete</button>
+                                <a class="btn btn-danger" href="{{route('admin.categories.destroy', $category->id)}}" onclick="event.preventDefault(); if (confirm('Are you sure you want to delete this category?')) { document.getElementById('delete-form-{{$category->id}}').submit(); }">Delete</a>
+                                <form id="delete-form-{{$category->id}}" action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                                </form>
                             </td>
                         </tr>
                         @endforeach
@@ -68,56 +74,6 @@
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
               </form>
-        </div>
-    </div>
-</div>
-
-<!-- Edit category modal -->
-<div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times
-                    </button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <label for="editCategoryName">Category Name</label>
-                    <input type="text" class="form-control" id="editCategoryName" placeholder="Enter category name">
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-    </div>
-</div>
-</div>
-<!-- Delete category modal -->
-<div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this category?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                 <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </div>
         </div>
     </div>
 </div>

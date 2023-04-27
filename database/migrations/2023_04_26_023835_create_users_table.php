@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name',50);
             $table->string('email',50)->unique();
-            $table->string('image_name',100);
-            $table->string('password',50);
+            $table->string('password');
+            $table->string('status',10)->default('users');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
