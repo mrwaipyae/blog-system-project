@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,18 +19,36 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-Route::get('admin/categories/', [CategoryController::class, 'index'])->name('admin.categories.index');
-Route::get('admin/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-Route::post('admin/categories/update', [CategoryController::class, 'update'])->name('admin.categories.update');
-Route::post('admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
 
-Route::post('admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
 
-Route::delete('admin/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+
+
+
+
+
 
 Route::get('admin/posts/', [PostController::class, 'index'])->name('admin.posts.index');
 
-Route::get('/admin',[AdminDashboardController::class,'index'])->name('admin.dashboard');
+// ADMIN
+Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
+    // dashboard
+    Route::get('/dashboard',[AdminDashboardController::class,'index'])->name('admin.dashboard');
+
+    // Category index
+    Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories');
+    // Category create
+    Route::post('/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+    // Category edit
+    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+    //Category update
+    Route::post('admin/categories/update', [CategoryController::class, 'update'])->name('admin.categories.update');
+    // Category delete
+    Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+    
+    // User
+    Route::get('/users',[UserController::class,'index'])->name('admin.users');
+});
 
 Route::get('/', function () {
     return view('layouts/master');

@@ -25,7 +25,7 @@ class CategoryController extends Controller
     }
 
 
-    public function edit(Request $request, Category $category)
+    public function edit(Category $category)
     {
 
         return view('admin.categories.edit', compact('category'));
@@ -33,6 +33,7 @@ class CategoryController extends Controller
 
     public function update(Request $request)
     {
+
         $category = Category::find($request->id);
 
         $category->name = $request->name;
@@ -43,10 +44,9 @@ class CategoryController extends Controller
     }
 
     public function destroy($id)
-{
-    $category = Category::findOrFail($id);
-    $category->delete();
-    return redirect()->back();
-}
-
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->back();
+    }
 }
