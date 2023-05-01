@@ -24,23 +24,16 @@ class CategoryController extends Controller
         return redirect()->back();
     }
 
-
-    public function edit(Category $category)
+    public function update(Request $request, $id)
     {
 
-        return view('admin.categories.edit', compact('category'));
-    }
-
-    public function update(Request $request)
-    {
-
-        $category = Category::find($request->id);
+        $category = Category::find($id);
 
         $category->name = $request->name;
 
         $category->save();
 
-        return redirect('admin/categories/');
+        return redirect()->back()->with('success', 'Category updated successfully.');
     }
 
     public function destroy($id)

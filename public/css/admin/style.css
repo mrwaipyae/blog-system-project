@@ -36,3 +36,10 @@
 .dpdetail:hover {
     background-color: blue;
 }
+
+
+.modal-header button.close {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 1px 3px;
+}

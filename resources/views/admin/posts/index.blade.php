@@ -31,7 +31,7 @@
 
 <!-- Post table -->
 @php
-$no = 1;
+    $no = 1;
 @endphp
 <table class="table table-striped">
     <thead>
@@ -45,18 +45,51 @@ $no = 1;
         </tr>
     </thead>
     <tbody>
-        @foreach ($posts as $post)
-        <tr>
-            <th>{{$no++}}</th>
-            <td>{{$post->title}}</td>
-            <td>{{$post->user->name}}</td>
-            <td>{{$post->category->name}}</td>
-            <td>tagggg</td>
-            <td>
-                <a href="#" class="btn btn-primary">Edit</a>
-                <a href="#" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
+        @foreach($posts as $post)
+            <tr>
+                <th>{{ $no++ }}</th>
+                <td>{{ $post->title }}</td>
+                <td>{{ $post->user->name }}</td>
+                <td>{{ $post->category->name }}</td>
+                <td>
+                    @foreach($post->tags as $tag)
+                        {{ $tag->name }}
+                    @endforeach
+                </td>
+                <td>
+                    <a href="#" class="btn btn-primary">Edit</a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                        data-target="#deletePostModal{{ $post->id }}">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <!-- Delete Category Modal -->
+            <div class="modal fade" id="deletePostModal{{ $post->id }}" tabindex="-1" role="dialog"
+                aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Delete Category</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this Post?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <form action="{{ route('admin.posts.destroy', $post->id) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endforeach
     </tbody>
 </table>
@@ -72,74 +105,82 @@ $no = 1;
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('admin.posts.create') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.posts.create') }}"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="form-group row">
-                        <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
+                        <label for="title"
+                            class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
                         <div class="col-md-6">
                             <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
                                 name="title" value="{{ old('title') }}" required autofocus>
                             @error('title')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="category_id"
-                            class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
+                            class="col-md-4 col-form-label text-md-right">{{ __('Category') }}
+                        </label>
                         <div class="col-md-6">
                             <select id="category_id" class="form-control @error('category_id') is-invalid @enderror"
                                 name="category_id" required>
                                 <option value="">-- Select Category --</option>
 
-                                @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"
-                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}
-                                </option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('category_id')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="tags">Tags:</label>
-                        <select name="tags[]" id="tags" class="form-control" multiple>
-                            @foreach($tags as $tag)
-                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                            @endforeach
-                        </select>
+                        <label for="tags" class="col-md-4 col-form-label text-md-right">Tags:</label>
+                        <div class="col-md-6">
+                            <select name="tags[]" id="tags" class="form-control" multiple>
+                                @foreach($tags as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="content" class="col-md-4 col-form-label text-md-right">{{ __('Content') }}</label>
+                        <label for="content"
+                            class="col-md-4 col-form-label text-md-right">{{ __('Content') }}</label>
                         <div class="col-md-6">
                             <textarea id="editor" class="form-control @error('content') is-invalid @enderror"
                                 name="content" rows="10">{{ old('content') }}</textarea>
                             @error('content')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
+                        <label for="image"
+                            class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
                         <div class="col-md-6">
                             <input id="image" type="file" class="form-control-file @error('image') is-invalid @enderror"
                                 name="image">
                             @error('image')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                     </div>

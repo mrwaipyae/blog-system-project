@@ -13,7 +13,7 @@ class TagController extends Controller
 {
     public function index()
     {
-        return view('admin/tags/index', ['tags' => Post::all()]);
+        return view('admin/tags/index', ['tags' => Tag::all()]);
     }
 
     public function create(Request $request)
@@ -23,4 +23,19 @@ class TagController extends Controller
         $tag->save();
         return redirect()->back();
     }
+
+    public function destroy($id){
+        $tag = Tag::find($id);
+        $tag->delete();
+        return redirect()->back();
+    }
+
+    public function update(Request $request, $id)
+{
+    $tag = Tag::findOrFail($id);
+    $tag->name = $request->name;
+    $tag->save();
+    return redirect()->back()->with('success', 'Tag updated successfully.');
+}
+
 }

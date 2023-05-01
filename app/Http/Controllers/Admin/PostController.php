@@ -48,6 +48,15 @@ class PostController extends Controller
         $post->user_id = auth()->user()->id;
         $post->save();
 
+        $tags = $request->input('tags', []);
+        $post->tags()->attach($tags);
+
         return redirect()->route('admin.posts')->with('success', 'Post created successfully.');
+    }
+
+    public function destroy($id){
+        $post = Post::find($id);
+        $post->delete();
+        return redirect()->back();
     }
 }

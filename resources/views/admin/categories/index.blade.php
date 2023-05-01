@@ -34,14 +34,73 @@
                             <td>{{ $category->created_at }}</td>
                             <td>{{ $category->updated_at }}</td>
                             <td>
-                                <a class="btn btn-primary" href="{{route('admin.categories.edit', $category->id)}}">Edit</a>
-                                <a class="btn btn-danger" href="{{route('admin.categories.destroy', $category->id)}}" onclick="event.preventDefault(); if (confirm('Are you sure you want to delete this category?')) { document.getElementById('delete-form-{{$category->id}}').submit(); }">Delete</a>
-                                <form id="delete-form-{{$category->id}}" action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" style="display: none;">
-                                @csrf
-                                @method('DELETE')
-                                </form>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#editCategoryModal{{ $category->id }}">
+                                        Edit
+                                </button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#deleteCategoryModal{{ $category->id }}">
+                                        Delete
+                                </button>
                             </td>
                         </tr>
+
+                        <!-- Edit Category Modal -->
+                        <div class="modal fade" id="editCategoryModal{{ $category->id }}" tabindex="-1" role="dialog"
+                            aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form
+                                            action="{{ route('admin.categories.update', $category->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    value="{{ $category->name }}">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Delete Category Modal -->
+                        <div class="modal fade" id="deleteCategoryModal{{ $category->id }}" tabindex="-1" role="dialog"
+                            aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Delete Category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this Category?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Cancel</button>
+                                        <form
+                                            action="{{ route('admin.categories.destroy', $category->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         @endforeach
                     @endisset
                     
