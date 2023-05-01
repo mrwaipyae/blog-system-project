@@ -28,7 +28,7 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         />
-        @section('script') @show
+        @section('link') @show
     </head>
     <body>
         <div class="container-fluid">
@@ -48,7 +48,7 @@
                         <a href="{{ url('/admin/dashboard') }}"
                             ><i class="bi bi-house me-1"></i>Dashboard</a
                         >
-                        <a href="{{ url('admin/posts') }}"
+                        <a href="{{ route('admin.posts') }}"
                             ><i class="bi bi-clipboard-check me-1"></i>Post
                             Management</a
                         >
@@ -59,7 +59,7 @@
                         <a href="{{route('admin.users')}}"
                             ><i class="bi bi-key me-1"></i>User Management</a
                         >
-                        <a href="#"
+                        <a href="{{ route('admin.tags') }}"
                             ><i class="bi bi-brush me-1"></i>Tag management</a
                         >
                         <a href="#"
@@ -200,5 +200,8 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"
         ></script>
+        @section('script')
+            
+        @show
     </body>
 </html>

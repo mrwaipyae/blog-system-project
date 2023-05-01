@@ -9,7 +9,8 @@ class Post extends Model
 {
     use HasFactory;
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -18,8 +19,8 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function postTag()
+    public function tag()
     {
-        return $this->hasMany(PostTag::class);
+        return $this->belongsToMany(Tag::class);
     }
 }
