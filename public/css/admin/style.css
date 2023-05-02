@@ -43,3 +43,12 @@
     font-size: 1.1rem;
     padding: 1px 3px;
 }
+
+
+.modal-lg {
+    max-width: 95%;
+}
+
+.ck-content {
+    height: 120px;
+}

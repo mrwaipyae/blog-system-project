@@ -5,12 +5,16 @@
 @section('content')
 <!-- Post navigation -->
 <div class="container mb-4 mt-4 p-3">
-    <h5 class="col-md-6">Posts</h5>
+    <h2 class="col-md-6">Posts</h2>
     <div class="row mt-4">
         <div class="col-md-6">
-            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addPostModal">
+            <!-- <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addPostModal">
+                Add New Post
+            </a> -->
+            <a href="{{ route('admin.posts.new') }}" class="btn btn-success">
                 Add New Post
             </a>
+
         </div>
         <div class="col-md-6">
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -57,13 +61,111 @@
                     @endforeach
                 </td>
                 <td>
-                    <a href="#" class="btn btn-primary">Edit</a>
+                    <button type="button" class="btn btn-info" data-toggle="modal"
+                        data-target="#viewPostModal{{ $post->id }}">
+                        view
+                    </button>
+                    <a href="{{ route('admin.posts.edit', ['id' => $post->id]) }}"
+                        class="btn btn-info">Edit</a>
+
                     <button type="button" class="btn btn-danger" data-toggle="modal"
                         data-target="#deletePostModal{{ $post->id }}">
                         Delete
                     </button>
                 </td>
             </tr>
+            <!-- Post view modal -->
+            <div class="modal fade" id="viewPostModal{{ $post->id }}" tabindex="-1" role="dialog"
+                aria-labelledby="postViewModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postViewModalLabel">{{ $post->title }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="{{ $post->image_url }}" class="img-fluid">
+                                </div>
+                                <div class="col-md-8">
+
+                                    <p></p>
+                                    <p>Category: {{ $post->category->name }},
+                                        Tags:
+                                        @foreach($post->tags as $tag)
+                                            {{ $tag->name }}
+                                        @endforeach
+                                    </p>
+                                    {!! $post->content!!}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Post Edit Modal -->
+            <div class="modal fade" id="editPostModal{{ $post->id }}" tabindex="-1"
+                aria-labelledby="editPostModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editPostForm"
+                                action="{{ route('admin.posts.update', $post->id) }}"
+                                method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title"
+                                        value="{{ $post->title }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea class="form-control" id="editor" name="content"
+                                        required>{{ $post->content }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select class="form-control" id="category" name="category_id">
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" @if ($category->id ===
+                                                $post->category_id) selected @endif>{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tags">Tags</label>
+                                    <select class="form-control" id="tags" name="tags[]" multiple>
+                                        @foreach($tags as $tag)
+                                            <option value="{{ $tag->id }}" @if (in_array($tag->id,
+                                                $post->tags->pluck('id')->toArray())) selected @endif>{{ $tag->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- Delete Category Modal -->
             <div class="modal fade" id="deletePostModal{{ $post->id }}" tabindex="-1" role="dialog"
                 aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -96,7 +198,7 @@
 
 <!-- add post modal -->
 <div id="addPostModal" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Add New Post</h4>
@@ -108,7 +210,8 @@
                 <form method="POST" action="{{ route('admin.posts.create') }}"
                     enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group row">
+
+                    <div class="form-group row mb-3">
                         <label for="title"
                             class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
                         <div class="col-md-6">
@@ -121,8 +224,7 @@
                             @enderror
                         </div>
                     </div>
-
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="category_id"
                             class="col-md-4 col-form-label text-md-right">{{ __('Category') }}
                         </label>
@@ -145,33 +247,17 @@
                             @enderror
                         </div>
                     </div>
-
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="tags" class="col-md-4 col-form-label text-md-right">Tags:</label>
                         <div class="col-md-6">
-                            <select name="tags[]" id="tags" class="form-control" multiple>
+                            <select name="tags[]" id="tags" class="form-control">
                                 @foreach($tags as $tag)
                                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <label for="content"
-                            class="col-md-4 col-form-label text-md-right">{{ __('Content') }}</label>
-                        <div class="col-md-6">
-                            <textarea id="editor" class="form-control @error('content') is-invalid @enderror"
-                                name="content" rows="10">{{ old('content') }}</textarea>
-                            @error('content')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
+                    <div class="form-group row mb-3 ">
                         <label for="image"
                             class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
                         <div class="col-md-6">
@@ -184,12 +270,22 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="form-group mb-2 ">
 
+                        <textarea id="editor" class="form-control @error('content') is-invalid @enderror" name="content"
+                            rows="10">{{ old('content') }}</textarea>
+                        @error('content')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             Close
                         </button>
-                        <button type="submit" class="btn btn-primary">Submi</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
                     </div>
                 </form>
             </div>

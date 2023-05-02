@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Auth;
 
 // Route::get('admin/posts/', [PostController::class, 'index'])->name('admin.posts.index');
 
+
 // ADMIN
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
     // dashboard
@@ -40,8 +41,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 
     // Post index
     Route::get('/posts', [PostController::class, 'index'])->name('admin.posts');
-    // Post create
-    Route::post('/posts/create', [PostController::class, 'create'])->name('admin.posts.create');
+    // Post new create
+    Route::get('/posts/new-post', [PostController::class, 'newPost'])->name('admin.posts.new');
+    Route::post('posts/create',[PostController::class,'create'])->name('admin.posts.create');
+    // Post edit
+    Route::get('/posts/{id}/edit',[PostController::class,'edit'])->name('admin.posts.edit');
+    Route::put('/posts/{id}/update',[PostController::class,'update'])->name('admin.posts.update');
     // Post delete
     Route::delete('/posts/{id}/destroy', [PostController::class, 'destroy'])->name('admin.posts.destroy');
 
@@ -53,6 +58,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->name('admin.categories.update');
     // Category delete
     Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
 
     // User
     Route::get('/users', [UserController::class, 'index'])->name('admin.users');
