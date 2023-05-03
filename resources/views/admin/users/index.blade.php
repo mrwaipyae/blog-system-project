@@ -1,8 +1,9 @@
 @extends('admin.layouts.master')
 @section('page_title','admin')
 @section('content')
-<h1>User management</h1>
-<div>
+
+<div class="container mt-4">
+    <h1 class="mb-5">User management</h1>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -19,11 +20,11 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->status }}</td>
                 <td>
-                    <a href="" class="btn btn-info btn-sm">View</a>
+                    <a href="" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                     <form action="" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa fa-trash"></i></button>
                     </form>
                 </td>
             </tr>

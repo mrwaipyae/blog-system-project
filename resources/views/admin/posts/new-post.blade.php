@@ -44,7 +44,7 @@
                 <div class="form-group mb-2">
                     <textarea name="content" id="editor" class="form-control" rows="10"></textarea>
                 </div>
-                <div id="editor"></div>
+        
 
                 <div class="form-group text-center">
                     <a href="{{route('admin.posts')}}" class="btn btn-secondary btn-lg px-3">Back</a>
@@ -59,19 +59,31 @@
  
 
 @section('script')
-<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#editor' ),{
-            ckfinder: {
-                uploadUrl: '{{route('admin.posts.create').'?_token='.csrf_token()}}',
-                options: {
-                resourceType: 'Images'
-            }
-            }
-        })
-        .catch( error => {
+{{-- 
+    // ClassicEditor
+    //     .create( document.querySelector( '#editor' ),{
+    //         ckfinder: {
+    //             uploadUrl: '{{route('admin.posts.create').'?_token='.csrf_token()}}',
+    //             options: {
+    //             resourceType: 'Images'
+    //         }
+    //         }
+    //     })
+    //     .catch( error => {
               
-        } );
+    //     } ); --}}
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<script>
+   // Remove a few plugins from the default setup.
+ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+        removePlugins: [ 'Heading', 'Link', 'CKFinder' ],
+        toolbar: [ 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote' ]
+    } )
+    .catch( error => {
+        console.log( error );
+    } );
+
 </script>
+
 @endsection

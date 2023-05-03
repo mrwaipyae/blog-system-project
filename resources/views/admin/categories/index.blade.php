@@ -36,11 +36,11 @@
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#editCategoryModal{{ $category->id }}">
-                                        Edit
+                                        <i class="fa fa-edit"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger" data-toggle="modal"
                                         data-target="#deleteCategoryModal{{ $category->id }}">
-                                        Delete
+                                        <i class="fa fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
