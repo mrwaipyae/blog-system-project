@@ -37,10 +37,10 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group mb-2">
-                    <input id="image" type="file" class="form-control-file @error('image') is-invalid @enderror"
-                                name="image">
-                </div>
+                    {{-- <div class="form-group mb-2">
+                        <input id="image" type="file" class="form-control-file @error('image') is-invalid @enderror"
+                                    name="image">
+                    </div> --}}
                 <div class="form-group mb-2">
                     <textarea name="content" id="editor" class="form-control" rows="10"></textarea>
                 </div>
@@ -59,14 +59,19 @@
  
 
 @section('script')
+<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
 <script>
     ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .then( editor => {
-            console.log( editor );
-        } )
+        .create( document.querySelector( '#editor' ),{
+            ckfinder: {
+                uploadUrl: '{{route('admin.posts.create').'?_token='.csrf_token()}}',
+                options: {
+                resourceType: 'Images'
+            }
+            }
+        })
         .catch( error => {
-            console.error( error );
+              
         } );
 </script>
 @endsection

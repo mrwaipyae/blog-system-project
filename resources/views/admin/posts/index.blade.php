@@ -8,13 +8,9 @@
     <h2 class="col-md-6">Posts</h2>
     <div class="row mt-4">
         <div class="col-md-6">
-            <!-- <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addPostModal">
-                Add New Post
-            </a> -->
             <a href="{{ route('admin.posts.new') }}" class="btn btn-success">
                 Add New Post
             </a>
-
         </div>
         <div class="col-md-6">
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -37,7 +33,7 @@
 @php
     $no = 1;
 @endphp
-<table class="table table-striped">
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -63,15 +59,25 @@
                 <td>
                     <button type="button" class="btn btn-info" data-toggle="modal"
                         data-target="#viewPostModal{{ $post->id }}">
-                        view
+                        <i class="fa fa-eye"></i>
                     </button>
                     <a href="{{ route('admin.posts.edit', ['id' => $post->id]) }}"
-                        class="btn btn-info">Edit</a>
-
+                        class="btn btn-warning"><i class="fa fa-edit"></i> </a>
                     <button type="button" class="btn btn-danger" data-toggle="modal"
                         data-target="#deletePostModal{{ $post->id }}">
-                        Delete
+                        <i class="fa fa-trash"></i>
                     </button>
+                    <button type="button"
+                        class="btn {{ (!$post->deleted_at)?'btn-secondary':'btn-success' }}"
+                        data-toggle="modal" data-target="#publishPostModal{{ $post->id }}">
+                        @if(!$post->deleted_at)
+                            Unpublish
+                        @else
+                            Publish
+                        @endif
+                    </button>
+
+
                 </td>
             </tr>
             <!-- Post view modal -->
@@ -166,13 +172,13 @@
             </div>
 
 
-            <!-- Delete Category Modal -->
+            <!-- Delete Post Modal -->
             <div class="modal fade" id="deletePostModal{{ $post->id }}" tabindex="-1" role="dialog"
                 aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">Delete Category</h5>
+                            <h5 class="modal-title" id="deleteModalLabel">Delete Post</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true"><i class="fas fa-times"></i></span>
                             </button>
@@ -187,6 +193,41 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publish unpublish Post Modal -->
+            <div class="modal fade" id="publishPostModal{{ $post->id }}" tabindex="-1" role="dialog"
+                aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Edit Post</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to
+                            <span>
+                                @if(!$post->deleted_at)
+                                    Unpublish
+                                @else
+                                    Publish
+                                @endif
+                            </span>
+                            this Post?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <form action="{{ route('admin.posts.publish', $post->id) }}"
+                                method="POST">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-danger">Save</button>
                             </form>
                         </div>
                     </div>

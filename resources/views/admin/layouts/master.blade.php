@@ -31,21 +31,32 @@
                     <p class="text-center">{{ Auth::user()->name }}</p>
                 </div>
                 <nav class="adminNav">
-                    <a href="{{ url('/admin/dashboard') }}"><i
+                    {{-- <a href="{{ url('/admin/dashboard') }}" class="{{ Request::is('/admin/dashboard') ? 'selected' : '' }}"><i
                             class="bi bi-house me-1"></i>Dashboard</a>
                     <a href="{{ route('admin.posts') }}"><i
-                            class="bi bi-clipboard-check me-1"></i>Post
+                            class="{{ Request::is('admin/posts*') ? 'selected' : '' }} bi bi-clipboard-check me-1"></i>Post
                         Management</a>
                     <a href="{{ route('admin.categories') }}"><i
-                            class="bi bi-plus-circle me-1"></i>Category
+                            class="{{ Request::is('admin/categories*') ? 'selected' : '' }} bi bi-plus-circle me-1"></i>Category
                         Management</a>
-                    <a href="{{ route('admin.users') }}"><i class="bi bi-key me-1"></i>User
+                    <a href="{{ route('admin.users') }}"><i
+                            class="{{ Request::is('admin/users*') ? 'selected' : '' }}bi bi-key me-1"></i>User
                         Management</a>
-                    <a href="{{ route('admin.tags') }}"><i class="bi bi-brush me-1"></i>Tag
+                    <a href="{{ route('admin.tags') }}"><i class="{{ Request::is('admin/tags*') ? 'selected' : '' }} bi bi-brush me-1"></i>Tag
                         management</a>
-                    <a href="#"><i class="bi bi-justify me-1"></i>Reports</a>
+                    <a href="#"><i class="{{ Request::is('admin/reports*') ? 'selected' : '' }} bi bi-justify me-1"></i>Reports</a>
                     <a href="{{ route('logout') }}"><i
-                            class="bi bi-box-arrow-right me-1"></i>Logout</a>
+                            class="bi bi-box-arrow-right me-1"></i>Logout</a> --}}
+                            <nav class="adminNav">
+                                <a href="{{ url('/admin/dashboard') }}" class="{{ Request::is('admin/dashboard') ? 'selected' : '' }}"><i class="bi bi-house me-1"></i>Dashboard</a>
+                                <a href="{{ route('admin.posts') }}" class="{{ Request::is('admin/posts*') ? 'selected' : '' }}"><i class="bi bi-clipboard-check me-1"></i>Post Management</a>
+                                <a href="{{ route('admin.categories') }}" class="{{ Request::is('admin/categories*') ? 'selected' : '' }}"><i class="bi bi-plus-circle me-1"></i>Category Management</a>
+                                <a href="{{ route('admin.users') }}" class="{{ Request::is('admin/users*') ? 'selected' : '' }}"><i class="bi bi-key me-1"></i>User Management</a>
+                                <a href="{{ route('admin.tags') }}" class="{{ Request::is('admin/tags*') ? 'selected' : '' }}"><i class="bi bi-brush me-1"></i>Tag management</a>
+                                <a href="#" class="{{ Request::is('admin/reports*') ? 'selected' : '' }}"><i class="bi bi-justify me-1"></i>Reports</a>
+                                <a href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-1"></i>Logout</a>
+                            </nav>
+                            
                 </nav>
             </div>
 

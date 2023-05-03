@@ -46,9 +46,14 @@
 
 
 .modal-lg {
-    max-width: 95%;
+    max-width: 80%;
 }
 
 .ck-content {
     height: 120px;
+}
+
+a.selected {
+    color: yellow;
+
 }

@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,9 +44,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     // Post new create
     Route::get('/posts/new-post', [PostController::class, 'newPost'])->name('admin.posts.new');
     Route::post('posts/create',[PostController::class,'create'])->name('admin.posts.create');
+
+    //////
+    Route::post('ckeditor/upload', [CkeditorController::class, 'upload'])->name('ckeditor.upload');
+    Route::post('/upload-image', function (Request $request) {
+        $imageName = '';
+        if ($request->hasFile('upload')) {
+            $image = $request->file('upload');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('img'), $imageName);
+        }
+        $url = asset('img/' . $imageName);
+        return response()->json([
+            'default' => $url
+        ]);
+    })->name('upload-image');
+    
     // Post edit
     Route::get('/posts/{id}/edit',[PostController::class,'edit'])->name('admin.posts.edit');
     Route::put('/posts/{id}/update',[PostController::class,'update'])->name('admin.posts.update');
+    Route::put('/post/{id}/un-publish',[PostController::class,'un_or_publish'])->name('admin.posts.publish');
     // Post delete
     Route::delete('/posts/{id}/destroy', [PostController::class, 'destroy'])->name('admin.posts.destroy');
 

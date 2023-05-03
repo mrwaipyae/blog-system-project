@@ -17,6 +17,7 @@
                 action="{{ route('admin.posts.update',['id'=>$post->id]) }}"
                 enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="form-group mb-2">
                     <input type="text" class="form-control" id="title" name="title" value="{{ $post->title }}"
                         required>
