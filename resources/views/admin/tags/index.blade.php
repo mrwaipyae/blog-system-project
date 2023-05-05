@@ -11,7 +11,6 @@
                     tag
                 </button>
             </div>
-
             <!-- Category table -->
             <table class="table table-bordered table-striped">
                 <thead>
@@ -53,7 +52,6 @@
                                     </button>
                                 </td>
                             </tr>
-
                             <!-- Edit Tag Modal -->
                             <div class="modal fade" id="editTagModal{{ $tag->id }}" tabindex="-1" role="dialog"
                                 aria-labelledby="editTagModalLabel" aria-hidden="true">
@@ -82,7 +80,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Delete Modal -->
                             <div class="modal fade" id="deleteTagModal{{ $tag->id }}" tabindex="-1" role="dialog"
                                 aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -113,14 +110,11 @@
                             </div>
                         @endforeach
                     @endisset
-
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-{{-- {{route('admin.tag.edit', $tag->id) }} --}}
-
 <!-- Add tag modal -->
 <div class="modal fade" id="addTagModal" tabindex="-1" role="dialog" aria-labelledby="addTagModalLabel"
     aria-hidden="true">
@@ -148,7 +142,5 @@
         </div>
     </div>
 </div>
-
-
 
 @endsection

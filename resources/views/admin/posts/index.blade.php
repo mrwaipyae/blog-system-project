@@ -64,13 +64,8 @@
                     @endforeach
                 </td>
                 <td>
-                    <!-- <button type="button" class="btn btn-info" data-toggle="modal"
-                        data-target="#viewPostModal{{ $post->id }}">
-                        <i class="fa fa-eye"></i>
-                    </button> -->
                     <a href="{{ route('post.show', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
                         class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                    <!-- ['id' => $post->id])  -->
                     <a href="{{ route('admin.posts.edit',$post->id) }}"
                         class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> </a>
 
@@ -87,8 +82,6 @@
                             Publish
                         @endif
                     </button>
-
-
                 </td>
             </tr>
             <!-- Post view modal -->
@@ -129,8 +122,6 @@
                     </div>
                 </div>
             </div>
-
-
             <!-- Post Edit Modal -->
             <div class="modal fade" id="editPostModal{{ $post->id }}" tabindex="-1"
                 aria-labelledby="editPostModalLabel" aria-hidden="true">
@@ -184,8 +175,6 @@
                     </div>
                 </div>
             </div>
-
-
             <!-- Delete Post Modal -->
             <div class="modal fade" id="deletePostModal{{ $post->id }}" tabindex="-1" role="dialog"
                 aria-labelledby="deleteModalLabel" aria-hidden="true">

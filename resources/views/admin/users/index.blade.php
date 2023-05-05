@@ -15,29 +15,28 @@
         </thead>
         <tbody>
             @foreach ($users as $user)
-            <tr>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->status }}</td>
-                <td>
-                    {{-- <a href="{{ route('admin.users.view', '@'.str_replace(' ', '',strtolower($user->name))) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> --}}
-                    <form method="post" action="{{ route('admin.users.view', '@'.str_replace(' ', '', strtolower($user->name))) }}"
-                        style="display: inline-block;">
-                        @csrf
-                        <input type="hidden" name="id" value="{{ $user->id }}">
-                        <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>
-                    </form>
-                    
-                    <form action="" method="POST" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa fa-trash"></i></button>
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->status }}</td>
+                    <td>
+                        <form method="post" action="{{ route('admin.users.view', '@'.str_replace(' ', '', strtolower($user->name))) }}"
+                            style="display: inline-block;">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $user->id }}">
+                            <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>
+                        </form>
+
+                        <form action="" method="POST" style="display: inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
-            
         </tbody>
     </table>
 </div>
+
 @endsection
