@@ -6,6 +6,7 @@
 }
 </style>
 @endsection
+@section('page_title','admin')
 @section('content')
 
 <div class="container my-1">
@@ -37,10 +38,10 @@
                         @endforeach
                     </select>
                 </div>
-                    {{-- <div class="form-group mb-2">
+                    <div class="form-group mb-2">
                         <input id="image" type="file" class="form-control-file @error('image') is-invalid @enderror"
                                     name="image">
-                    </div> --}}
+                    </div>
                 <div class="form-group mb-2">
                     <textarea name="content" id="editor" class="form-control" rows="10"></textarea>
                 </div>
@@ -59,31 +60,6 @@
  
 
 @section('script')
-{{-- 
-    // ClassicEditor
-    //     .create( document.querySelector( '#editor' ),{
-    //         ckfinder: {
-    //             uploadUrl: '{{route('admin.posts.create').'?_token='.csrf_token()}}',
-    //             options: {
-    //             resourceType: 'Images'
-    //         }
-    //         }
-    //     })
-    //     .catch( error => {
-              
-    //     } ); --}}
-<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
-<script>
-   // Remove a few plugins from the default setup.
-ClassicEditor
-    .create( document.querySelector( '#editor' ), {
-        removePlugins: [ 'Heading', 'Link', 'CKFinder' ],
-        toolbar: [ 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote' ]
-    } )
-    .catch( error => {
-        console.log( error );
-    } );
 
-</script>
 
 @endsection

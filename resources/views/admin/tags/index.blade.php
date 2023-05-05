@@ -1,5 +1,5 @@
 @extends('admin/layouts/master')
-
+@section('page_title','admin')
 @section('content')
 <div class="container mt-4">
     <div class="row">

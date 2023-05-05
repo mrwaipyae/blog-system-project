@@ -44,31 +44,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 
     // Post index
     Route::get('/posts', [PostController::class, 'index'])->name('admin.posts');
-    // Post new create
-    Route::get('/posts/new-post', [PostController::class, 'newPost'])->name('admin.posts.new');
-    Route::post('posts/create', [PostController::class, 'create'])->name('admin.posts.create');
 
-    //////
-    // Route::post('ckeditor/upload', [CkeditorController::class, 'upload'])->name('ckeditor.upload');
-    // Route::post('/upload-image', function (Request $request) {
-    //     $imageName = '';
-    //     if ($request->hasFile('upload')) {
-    //         $image = $request->file('upload');
-    //         $imageName = time() . '_' . $image->getClientOriginalName();
-    //         $image->move(public_path('img'), $imageName);
-    //     }
-    //     $url = asset('img/' . $imageName);
-    //     return response()->json([
-    //         'default' => $url
-    //     ]);
-    // })->name('upload-image');
+    // Post creation
+    Route::get('posts/new', [PostController::class, 'newPost'])->name('admin.posts.new');
+    Route::post('/posts', [PostController::class, 'create'])->name('admin.posts.create');
+    Route::post('/posts/uploadFile',[PostController::class,'uploadFile'])->name('uploadFile');
 
-    // Post edit
+    // Post edit, update, publish and delete
     Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
-    Route::put('/posts/{id}/update', [PostController::class, 'update'])->name('admin.posts.update');
-    Route::put('/post/{id}/un-publish', [PostController::class, 'un_or_publish'])->name('admin.posts.publish');
-    // Post delete
-    Route::delete('/posts/{id}/destroy', [PostController::class, 'destroy'])->name('admin.posts.destroy');
+    Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
+    Route::put('/posts/{id}/un-publish', [PostController::class, 'un_or_publish'])->name('admin.posts.publish');
+    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
+   
+    // Post show
+    Route::get('/posts/{user}/{titleAndId}', [PostController::class, 'show'])->name('post.show');
 
     // Category index
     Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories');
@@ -80,8 +69,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
 
-    // User
+    // User index
     Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+    // User show
+    Route::get('/users/{id}',[UserController::class,'view'])->name('admin.users.view');
+
 
     // Tag index
     Route::get('/tags', [TagController::class, 'index'])->name('admin.tags');

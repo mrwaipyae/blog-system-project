@@ -7,6 +7,7 @@
 
 </style>
 @endsection
+@section('page_title','admin')
 @section('content')
 
 <div class="container my-1">
@@ -18,6 +19,7 @@
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
                 <div class="form-group mb-2">
                     <input type="text" class="form-control" id="title" name="title" value="{{ $post->title }}"
                         required>
@@ -57,7 +59,6 @@
                 <div class="form-group mb-2">
                     <textarea class="form-control" id="editor" name="content" required>{{ $post->content }}</textarea>
                 </div>
-                <div id="editor"></div>
 
                 <div class="form-group text-center">
                     <a href="{{ route('admin.posts') }}" class="btn btn-secondary btn-lg px-3">Back to
@@ -73,17 +74,4 @@
 
 
 @section('script')
-<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
-
-<script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .then(editor => {
-            console.log(editor);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-</script>
 @endsection

@@ -20,7 +20,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->status }}</td>
                 <td>
-                    <a href="" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                    <a href=" route('admin.users.view',$user->id)" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                     <form action="" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')

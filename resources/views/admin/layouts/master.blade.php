@@ -26,7 +26,7 @@
             <!-- left -->
             <div class="col-md-2 bg-brown text-white">
                 <div class="text-center pt-2">
-                    <img src="{{ url('img/admin11.png') }}" alt=""
+                    <img src="{{ url('img/admin.jpg') }}" alt=""
                         class="img img-fluid img-thumbnail accountImg" width="90" />
                     <p class="text-center">{{ Auth::user()->name }}</p>
                 </div>
@@ -127,6 +127,24 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<script>
+ClassicEditor
+          .create( document.querySelector( '#editor' ),{ 
+                ckfinder: {
+                      uploadUrl: "{{route('uploadFile').'?_token='.csrf_token()}}",
+                }
+          } )
+          .then( editor => {
+
+                console.log( editor );
+
+          } )
+          .catch( error => {
+                console.error( error );
+          } );
+</script>
     @section('script')
 
     @show
