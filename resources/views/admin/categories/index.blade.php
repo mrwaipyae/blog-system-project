@@ -34,11 +34,11 @@
                             <td>{{ $category->created_at }}</td>
                             <td>{{ $category->updated_at }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                         data-target="#editCategoryModal{{ $category->id }}">
                                         <i class="fa fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#deleteCategoryModal{{ $category->id }}">
                                         <i class="fa fa-trash"></i>
                                 </button>

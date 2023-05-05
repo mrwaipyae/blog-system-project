@@ -114,9 +114,10 @@ class PostController extends Controller
         $post->category_id = $request->category_id;
         $post->user_id = auth()->user()->id;
         $post->save();
-
         $tags = $request->input('tags', []);
         $post->tags()->attach($tags);
+
+        
         Session::flash('message','Post Create Successfully.');
 
         return redirect('admin/posts');

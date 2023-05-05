@@ -20,7 +20,14 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->status }}</td>
                 <td>
-                    <a href=" route('admin.users.view',$user->id)" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                    {{-- <a href="{{ route('admin.users.view', '@'.str_replace(' ', '',strtolower($user->name))) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> --}}
+                    <form method="post" action="{{ route('admin.users.view', '@'.str_replace(' ', '', strtolower($user->name))) }}"
+                        style="display: inline-block;">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $user->id }}">
+                        <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>
+                    </form>
+                    
                     <form action="" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')

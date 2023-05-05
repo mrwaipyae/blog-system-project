@@ -35,11 +35,19 @@
                                 <td>{{ $tag->created_at }}</td>
                                 <td>{{ $tag->updated_at }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    <form method="post"
+                                        action="{{ route('admin.tags.view', str_replace(' ', '-', strtolower($tag->name))) }}"
+                                        style="display: inline-block;">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $tag->id }}">
+                                        <button type="submit" class="btn btn-info btn-sm"><i
+                                                class="fa fa-eye"></i></button>
+                                    </form>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                         data-target="#editTagModal{{ $tag->id }}">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#deleteTagModal{{ $tag->id }}">
                                         <i class="fa fa-trash"></i>
                                     </button>

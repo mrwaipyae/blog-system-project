@@ -71,18 +71,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 
     // User index
     Route::get('/users', [UserController::class, 'index'])->name('admin.users');
-    // User show
-    Route::get('/users/{id}',[UserController::class,'view'])->name('admin.users.view');
+    // User view
+    Route::post('/users/{name}',[UserController::class,'view'])->name('admin.users.view');
 
 
     // Tag index
     Route::get('/tags', [TagController::class, 'index'])->name('admin.tags');
-    // Tag create
+    // Tag creation
     Route::post('/tags/create', [TagController::class, 'create'])->name('admin.tags.create');
-    // Tag delete
-    Route::delete('/tags/{id}/destroy', [TagController::class, 'destroy'])->name('admin.tags.destroy');
-    // Tag edit
+    // Tag update/delete
     Route::put('/tags/{id}/update', [TagController::class, 'update'])->name('admin.tags.update');
+    Route::delete('/tags/{id}/destroy', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+    // Tag view
+    Route::post('/tags/{name}',[TagController::class,'view'])->name('admin.tags.view');
 });
 
 Route::get('/', function () {

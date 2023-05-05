@@ -68,18 +68,18 @@
                         data-target="#viewPostModal{{ $post->id }}">
                         <i class="fa fa-eye"></i>
                     </button> -->
-                    <a href="{{ route('post.show', ['@'.str_replace(' ', '', $post->user->name), Str::slug($post->title).'-'. $post->id]) }}"
-                        class="btn btn-info"><i class="fa fa-eye"></i></a>
+                    <a href="{{ route('post.show', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
+                        class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                     <!-- ['id' => $post->id])  -->
                     <a href="{{ route('admin.posts.edit',$post->id) }}"
-                        class="btn btn-warning"><i class="fa fa-edit"></i> </a>
+                        class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> </a>
 
-                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                         data-target="#deletePostModal{{ $post->id }}">
                         <i class="fa fa-trash"></i>
                     </button>
                     <button type="button"
-                        class="btn {{ (!$post->deleted_at)?'btn-secondary':'btn-success' }}"
+                        class="btn {{ (!$post->deleted_at)?'btn-secondary':'btn-success' }} btn-sm"
                         data-toggle="modal" data-target="#publishPostModal{{ $post->id }}">
                         @if(!$post->deleted_at)
                             Unpublish

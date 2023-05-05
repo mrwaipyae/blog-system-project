@@ -31,11 +31,20 @@ class TagController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $tag = Tag::findOrFail($id);
-    $tag->name = $request->name;
-    $tag->save();
-    return redirect()->back()->with('success', 'Tag updated successfully.');
-}
+    {
+        $tag = Tag::findOrFail($id);
+        $tag->name = $request->name;
+        $tag->save();
+        return redirect()->back()->with('success', 'Tag updated successfully.');
+    }
+
+    public function view(Request $request){
+    
+        $tag = Tag::find($request->id);
+        $tagPosts = $tag->posts()->orderBy('created_at', 'desc')->paginate(10);
+        $totalPosts = $tag->posts()->count();
+        
+        return view('admin/tags/view', compact('tag', 'totalPosts', 'tagPosts'));
+    }
 
 }
