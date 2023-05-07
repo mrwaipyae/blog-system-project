@@ -2,13 +2,16 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostLikeController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,37 +30,27 @@ Route::post('/uploadFile', [PagesController::class, 'uploadFile'])->name('upload
 
 
 
-
-// Route::get('/admin/ckeditor', [CkeditorController::class, 'index']);
-// Route::post('/ckeditor/upload', [CkeditorController::class, 'store'])->name('posts.store');
-
-
-
-
-// Route::get('admin/posts/', [PostController::class, 'index'])->name('admin.posts.index');
-
-
 // ADMIN
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
     // dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // Post index
-    Route::get('/posts', [PostController::class, 'index'])->name('admin.posts');
+    Route::get('/posts', [AdminPostController::class, 'index'])->name('admin.posts');
 
     // Post creation
-    Route::get('posts/new', [PostController::class, 'newPost'])->name('admin.posts.new');
-    Route::post('/posts', [PostController::class, 'create'])->name('admin.posts.create');
-    Route::post('/posts/uploadFile',[PostController::class,'uploadFile'])->name('uploadFile');
+    Route::get('posts/new', [AdminPostController::class, 'newPost'])->name('admin.posts.new');
+    Route::post('/posts', [AdminPostController::class, 'create'])->name('admin.posts.create');
+    Route::post('/posts/uploadFile', [AdminPostController::class, 'uploadFile'])->name('uploadFile');
 
     // Post edit, update, publish and delete
-    Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
-    Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
-    Route::put('/posts/{id}/un-publish', [PostController::class, 'un_or_publish'])->name('admin.posts.publish');
-    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
-   
+    Route::get('/posts/{id}/edit', [AdminPostController::class, 'edit'])->name('admin.posts.edit');
+    Route::put('/posts/{id}', [AdminPostController::class, 'update'])->name('admin.posts.update');
+    Route::put('/posts/{id}/un-publish', [AdminPostController::class, 'un_or_publish'])->name('admin.posts.publish');
+    Route::delete('/posts/{id}', [AdminPostController::class, 'destroy'])->name('admin.posts.destroy');
+
     // Post show
-    Route::get('/posts/{user}/{titleAndId}', [PostController::class, 'show'])->name('post.show');
+    Route::get('/posts/{user}/{titleAndId}', [AdminPostController::class, 'show'])->name('admin.post.show');
 
     // Category index
     Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories');
@@ -68,12 +61,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     // Category delete
     Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
-
     // User index
     Route::get('/users', [UserController::class, 'index'])->name('admin.users');
     // User view
-    Route::post('/users/{name}',[UserController::class,'view'])->name('admin.users.view');
-
+    Route::post('/users/{name}', [UserController::class, 'view'])->name('admin.users.view');
 
     // Tag index
     Route::get('/tags', [TagController::class, 'index'])->name('admin.tags');
@@ -83,12 +74,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::put('/tags/{id}/update', [TagController::class, 'update'])->name('admin.tags.update');
     Route::delete('/tags/{id}/destroy', [TagController::class, 'destroy'])->name('admin.tags.destroy');
     // Tag view
-    Route::post('/tags/{name}',[TagController::class,'view'])->name('admin.tags.view');
+    Route::post('/tags/{name}', [TagController::class, 'view'])->name('admin.tags.view');
 });
 
-Route::get('/', function () {
-    return view('layouts/master');
-});
+// USER
+Route::get('/', [PostController::class, 'index']);
+Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.view');
+Route::post('/{post}/like', [PostLikeController::class, 'store'])->middleware('auth')->name('post.like');
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
 
 
