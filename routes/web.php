@@ -79,9 +79,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 
 // USER
 Route::get('/', [PostController::class, 'index']);
+Route::get('/new-post',[PostController::class,'new'])->name('post.new');
 Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.view');
-Route::post('/{post}/like', [PostLikeController::class, 'store'])->middleware('auth')->name('post.like');
+Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->middleware('auth')->name('post.like');
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
 
 
 

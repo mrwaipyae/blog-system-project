@@ -35,4 +35,10 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function commentsWithUser()
+{
+    return $this->comments()->with('user');
+}
+
 }

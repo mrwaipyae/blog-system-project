@@ -35,7 +35,7 @@ class LoginController extends Controller
         if(Auth::user()->status == 'admin'){
             return redirect('/admin/dashboard');
         }else{
-            return redirect('/');
+            return redirect()->intended('/');
         }
     }
 
