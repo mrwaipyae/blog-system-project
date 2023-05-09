@@ -123,25 +123,24 @@
 
     
     <script src="{{asset('ckeditor5/ckeditor.js')}}"></script>
-<script>
-     window.addEventListener('load',function(){
-        ClassicEditor
-          .create( document.querySelector( '#editor' ),{ 
-                ckfinder: {
-                      uploadUrl: "{{route('uploadFile').'?_token='.csrf_token()}}",
-                }
-          } )
-          .then( editor => {
-
-                console.log( editor );
-
-          } )
-          .catch( error => {
-                console.error( error );
-          } );
-     });
-
-</script>
+    <script>
+         window.addEventListener('load',function(){
+            ClassicEditor
+              .create( document.querySelector( '#editor' ),{ 
+                    ckfinder: {
+                          uploadUrl: "{{route('uploadFile').'?_token='.csrf_token()}}",
+                    }
+              } )
+              .then( editor => {
+            
+                    console.log( editor );
+            
+              } )
+              .catch( error => {
+                    console.error( error );
+              } );
+         });
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">

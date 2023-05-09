@@ -46,7 +46,6 @@ class AdminPostController extends Controller
     // Upload CkEditor file
     public function uploadFile(Request $request)
     {
-
         $data = array();
 
         $validator = Validator::make($request->all(), [
@@ -89,7 +88,6 @@ class AdminPostController extends Controller
 
     public function create(Request $request)
     {
-
         // validation
         $request->validate([
             'title' => 'required',

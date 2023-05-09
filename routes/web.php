@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdminPostController;
-use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\AdminTagController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +12,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,19 +68,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::post('/users/{name}', [UserController::class, 'view'])->name('admin.users.view');
 
     // Tag index
-    Route::get('/tags', [TagController::class, 'index'])->name('admin.tags');
+    Route::get('/tags', [AdminTagController::class, 'index'])->name('admin.tags');
     // Tag creation
-    Route::post('/tags/create', [TagController::class, 'create'])->name('admin.tags.create');
+    Route::post('/tags/create', [AdminTagController::class, 'create'])->name('admin.tags.create');
     // Tag update/delete
-    Route::put('/tags/{id}/update', [TagController::class, 'update'])->name('admin.tags.update');
-    Route::delete('/tags/{id}/destroy', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+    Route::put('/tags/{id}/update', [AdminTagController::class, 'update'])->name('admin.tags.update');
+    Route::delete('/tags/{id}/destroy', [AdminTagController::class, 'destroy'])->name('admin.tags.destroy');
     // Tag view
-    Route::post('/tags/{name}', [TagController::class, 'view'])->name('admin.tags.view');
+    Route::post('/tags/{name}', [AdminTagController::class, 'view'])->name('admin.tags.view');
 });
 
 // USER
+
 Route::get('/', [PostController::class, 'index']);
 Route::get('/new-post',[PostController::class,'new'])->name('post.new');
+Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
+Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
 Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.view');
 Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->middleware('auth')->name('post.like');
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
