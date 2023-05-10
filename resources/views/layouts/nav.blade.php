@@ -23,8 +23,8 @@
                     <li class="nav-item dropdown">
                         <a href="" class="nav-link btn dropdown-toggle pb-1" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <img src="https://via.placeholder.com/50" alt="User Profile" class="rounded-circle"
-                                width="35" height="35">
+                            <img src="{{ asset('storage/profile_images/'.Auth::user()->profile_image) }}"
+                                alt="User Profile" class="rounded-circle" width="35" height="35">
                         </a>
                         <ul class="dropdown-menu" style=" overflow-y: auto; left:-100px; top: 50px">
                             <li>
@@ -66,19 +66,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="" class="nav-link btn dropdown-toggle pb-1" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <img src="https://via.placeholder.com/50" alt="User Profile" class="rounded-circle"
-                                width="35" height="35">
-                        </a>
-                        <ul class="dropdown-menu" style=" overflow-y: auto; left:-100px; top: 50px">
-                            <li>
-                                <a class="dropdown-item btn" data-bs-toggle="modal"
-                                    data-bs-target="#logoutModal">Logout</a>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </div>

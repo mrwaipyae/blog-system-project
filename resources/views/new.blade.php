@@ -17,19 +17,6 @@
                 <div class="form-group mb-3">
                     <input type="text" name="title" class="form-control form-control-lg" placeholder="Title">
                 </div>
-                <div class="form-group mb-2">
-                    <select id="category_id" class="form-control @error('category_id') is-invalid @enderror"
-                        name="category_id" required>
-                        <option value=""> --Category-- </option>
-
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
                 <div class="form-group mb-3">
                     <select name="tags[]" id="tags" class="form-control">
                         <option value="">Choose Tag</option>

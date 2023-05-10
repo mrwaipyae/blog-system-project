@@ -46,8 +46,8 @@
                         <li class="nav-item dropdown">
                             <a href="" class="nav-link btn dropdown-toggle pb-1" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                <img src="https://via.placeholder.com/50" alt="User Profile" class="rounded-circle"
-                                    width="35" height="35">
+                                <img src="{{ asset('storage/profile_images/'.Auth::user()->profile_image) }}"
+                                    alt="User Profile" class="rounded-circle" width="35" height="35">
                             </a>
                             <ul class="dropdown-menu" style=" overflow-y: auto; left:-100px; top: 50px">
                                 <li>
@@ -174,9 +174,10 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="d-flex align-items-center mb-2">
-                                        <a href="">
-                                            <img src="https://via.placeholder.com/50" alt="User Profile"
-                                                class="rounded-circle me-2" width="30" height="30">
+                                        <a
+                                            href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}">
+                                            <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
+                                                alt="User Profile" class="rounded-circle me-2" width="30" height="30">
                                         </a>
                                         <a href="" class="nav-link">
                                             <p class="m-0">{{ $post->user->name }}</p>
@@ -219,7 +220,7 @@
                                 <div class="col-md-4 d-flex align-items-center">
                                     @if($post->image)
                                         <img src="{{ asset('img/' . $post->image) }}"
-                                            alt="{{ $post->title }}" class="img-thumbnail" style="height: 80%;">
+                                            alt="{{ $post->title }}" class="img-fluid" style="width:90%;">
                                     @endif
                                 </div>
                             </div>
@@ -320,7 +321,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}"
+                        enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-3">
@@ -345,8 +347,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="profile_image" class="form-label">Profile Image</label>
-                            <input type="file" class="form-control" name="profile_img" required>
+                            <label for="profile_image"
+                                class="form-label">{{ __('Profile Image') }}</label>
+
+
+                            <input id="profile_image" type="file"
+                                class="form-control @error('profile_image') is-invalid @enderror" name="profile_image">
+
+                            @error('profile_image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+
                         </div>
 
                         <div class="mb-3">

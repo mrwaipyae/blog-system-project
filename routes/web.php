@@ -4,15 +4,15 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminTagController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Http\Controllers\PagesController;
+
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +25,7 @@ use App\Http\Controllers\TagController;
 |   
 */
 
-Route::get('/pageindex', [PagesController::class, 'index']);
-Route::post('/submitform', [PagesController::class, 'submitform'])->name('submitform');
-Route::post('/uploadFile', [PagesController::class, 'uploadFile'])->name('uploadFile');
+
 
 
 
@@ -63,9 +61,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::delete('/categories/{id}/destroy', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
     // User index
-    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
     // User view
-    Route::post('/users/{name}', [UserController::class, 'view'])->name('admin.users.view');
+    Route::post('/users/{name}', [AdminUserController::class, 'view'])->name('admin.users.view');
 
     // Tag index
     Route::get('/tags', [AdminTagController::class, 'index'])->name('admin.tags');
@@ -81,7 +79,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 // USER
 
 Route::get('/', [PostController::class, 'index']);
-Route::get('/new-post',[PostController::class,'new'])->name('post.new');
+Route::get('/{user}-{id}',[UserController::class,'showPosts'])->name('user.posts');
+Route::get('/new',[PostController::class,'new'])->name('post.new');
 Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
 Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
 Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.view');

@@ -32,7 +32,8 @@
         <div class="col-md-8 mx-auto">
             <h2 class="mb-5">{{$post->title}}</h2>
             <div class="d-flex align-items-center mb-3">
-                <img src="https://via.placeholder.com/50" alt="User Profile" class="rounded-circle me-2">
+                <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
+                                                alt="User Profile" class="rounded-circle me-3" width="35" height="35">
                 <div>
                     <h5 class="m-0">{{$post->user->name}}</h5>
                     <span class="text-muted">{{date("F j", strtotime($post->created_at))}}</span>

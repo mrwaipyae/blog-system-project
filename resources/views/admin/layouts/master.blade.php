@@ -34,7 +34,6 @@
                     <nav class="adminNav">
                         <a href="{{ url('/admin/dashboard') }}" class="{{ Request::is('admin/dashboard') ? 'selected' : '' }}"><i class="bi bi-house me-1"></i>Dashboard</a>
                         <a href="{{ route('admin.posts') }}" class="{{ Request::is('admin/posts*') ? 'selected' : '' }}"><i class="bi bi-clipboard-check me-1"></i>Post Management</a>
-                        <a href="{{ route('admin.categories') }}" class="{{ Request::is('admin/categories*') ? 'selected' : '' }}"><i class="bi bi-plus-circle me-1"></i>Category Management</a>
                         <a href="{{ route('admin.users') }}" class="{{ Request::is('admin/users*') ? 'selected' : '' }}"><i class="bi bi-key me-1"></i>User Management</a>
                         <a href="{{ route('admin.tags') }}" class="{{ Request::is('admin/tags*') ? 'selected' : '' }}"><i class="bi bi-brush me-1"></i>Tag management</a>
                         <a href="#" class="{{ Request::is('admin/reports*') ? 'selected' : '' }}"><i class="bi bi-justify me-1"></i>Reports</a>

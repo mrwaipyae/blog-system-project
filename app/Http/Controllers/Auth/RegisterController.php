@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
@@ -47,15 +48,15 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'profile_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
-    }
+        protected function validator(array $data)
+        {
+            return Validator::make($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                
+            ]);
+        }
 
     /**
      * Create a new user instance after a valid registration.
@@ -65,10 +66,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $profileImageName = null;
+        if (isset($data['profile_image'])) {
+            $profileImage = $data['profile_image'];
+            $profileImageName = time() . '_' . $profileImage->getClientOriginalName();
+            $profileImage->storeAs('public/profile_images', $profileImageName);
+        }
+    
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'profile_image' => $profileImageName,
         ]);
     }
 }

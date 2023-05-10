@@ -9,7 +9,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 
 
-class TagController extends Controller
+class AdminTagController extends Controller
 {
     public function index()
     {
@@ -43,7 +43,7 @@ class TagController extends Controller
         $tag = Tag::find($request->id);
         $tagPosts = $tag->posts()->orderBy('created_at', 'desc')->paginate(10);
         $totalPosts = $tag->posts()->count();
-        
+    
         return view('admin/tags/view', compact('tag', 'totalPosts', 'tagPosts'));
     }
 

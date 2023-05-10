@@ -34,9 +34,8 @@ class PostController extends Controller
     }
 
     public function new(){
-        $categories = Category::all();
         $tags = Tag::all();
-        return view('/new',['categories'=>$categories,'tags'=>$tags]);
+        return view('/new',['tags'=>$tags]);
     }
 
     
@@ -48,7 +47,7 @@ class PostController extends Controller
             'content' => 'required',
             'image' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'category_id' => 'required',
+            
         ]);
 
         // upload image
@@ -64,7 +63,6 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->image = $imageName;
-        $post->category_id = $request->category_id;
         $post->user_id = auth()->user()->id;
         $post->save();
         $tags = $request->input('tags', []);
@@ -73,7 +71,7 @@ class PostController extends Controller
 
         Session::flash('message', 'Post Create Successfully.');
 
-        return redirect('admin/posts');
+        return redirect('/');
     }
 
      // Upload CkEditor file

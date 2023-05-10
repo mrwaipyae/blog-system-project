@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Validator;
@@ -17,10 +16,10 @@ class AdminPostController extends Controller
     public function index()
     {
         $posts = Post::withTrashed()->get();
-        $categories = Category::all();
+        
         $tags = Tag::all();
 
-        return view('admin/posts/index', ['posts' => $posts, 'categories' => $categories, 'tags' => $tags]);
+        return view('admin/posts/index', ['posts' => $posts, 'tags' => $tags]);
     }
 
     public function show($user, $titleAndId)
@@ -38,9 +37,8 @@ class AdminPostController extends Controller
 
     public function newPost()
     {
-        $categories = Category::all();
         $tags = Tag::all();
-        return view('admin/posts/new', ['categories' => $categories, 'tags' => $tags]);
+        return view('admin/posts/new', [ 'tags' => $tags]);
     }
 
     // Upload CkEditor file
@@ -94,7 +92,7 @@ class AdminPostController extends Controller
             'content' => 'required',
             'image' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'category_id' => 'required',
+           
         ]);
 
         // upload image
@@ -110,7 +108,6 @@ class AdminPostController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->image = $imageName;
-        $post->category_id = $request->category_id;
         $post->user_id = auth()->user()->id;
         $post->save();
         $tags = $request->input('tags', []);
@@ -165,9 +162,8 @@ class AdminPostController extends Controller
     public function edit($id)
     {
         $post = Post::withTrashed()->findOrFail($id);
-        $categories = Category::all();
         $tags = Tag::all();
-        return view('admin.posts.edit', ['post' => $post, 'categories' => $categories, 'tags' => $tags]);
+        return view('admin.posts.edit', ['post' => $post, 'tags' => $tags]);
     }
 
     public function update(Request $request, $id)
