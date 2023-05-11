@@ -83,7 +83,8 @@
                             <a class="nav-link btn" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn text-white nav-link rounded-pill px-3 bg-dark" data-bs-toggle="modal"
+                            <a href="{{ route('register') }}"
+                                class="btn text-white nav-link rounded-pill px-3 bg-dark" data-bs-toggle="modal"
                                 data-bs-target="#registerModal">Get Started</a>
                         </li>
                     </ul>
@@ -102,7 +103,8 @@
 
                         <div class="row">
                             <div class="col-md-4 col-lg-4">
-                                <a class="btn text-white nav-link rounded-pill py-2 fs-5 bg-dark" href="#">Start
+                                <a class="btn text-white nav-link rounded-pill py-2 fs-5 bg-dark"
+                                    href="{{ route('register') }}">Start
                                     Reading</a>
                             </div>
                         </div>
@@ -212,7 +214,7 @@
                                                 </a> -->
 
                                             <a
-                                                class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0">{{ $tag->name }}</a>
+                                                class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">{{ $tag->name }}</a>
 
                                         @endforeach
                                     </div>
@@ -235,7 +237,7 @@
                         <h5 class="mb-3">Discover more of what matters to you</h5>
                         <div class="row">
                             @foreach(App\Models\Tag::all() as $tag)
-                                <div class="col-sm-4 col-md-3 col-lg-2">
+                                <div class="col-sm-4 col-md-3 col-lg-2 mx-3">
                                     <a class="btn btn-dark btn-sm mb-2 rounded-pill px-3"
                                         href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
                                 </div>

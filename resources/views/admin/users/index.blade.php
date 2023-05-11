@@ -3,7 +3,24 @@
 @section('content')
 
 <div class="container mt-4">
-    <h1 class="mb-5">User management</h1>
+    <h1 class="mb-5">Users</h1>
+    <div class="row mb-3">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" placeholder="Enter keyword..." />
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary btn-block" type="button">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>

@@ -86,7 +86,7 @@
                             @foreach ($post->comments as $comment)
                             <li class="media my-4 border-bottom pb-2">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="https://via.placeholder.com/50" width="35" height="35" alt="User Profile"
+                                    <img src="{{ asset('storage/profile_images/'.$comment->user->profile_image) }}" width="35" height="35" alt="User Profile"
                                         class="rounded-circle me-2">
                                     <div>
                                         <h6 class="m-0">

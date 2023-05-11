@@ -21,3 +21,4 @@ class AdminUserController extends Controller
         return view('admin/users/view', compact('user', 'totalPosts', 'userPosts',));
     }
 }
+    

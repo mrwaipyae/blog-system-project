@@ -20,7 +20,7 @@
                                 <div class="col-md-8">
                                     <div class="d-flex align-items-center mb-2">
                                         <a href="">
-                                            <img src="https://via.placeholder.com/50" alt="User Profile"
+                                            <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}" alt="User Profile"
                                                 class="rounded-circle me-2" width="30" height="30">
                                         </a>
                                         <a href="" class="nav-link">
@@ -53,8 +53,8 @@
                                                     class="badge bg-secondary text-center px-2 rounded-pill">{{ $tag->name }}</span>
                                             </a> -->
 
-                                            <a
-                                                class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0">{{ $tag->name }}</a>
+                                            <a href="{{ route('tag.show', $tag->name) }}"
+                                                class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">{{ $tag->name }}</a>
 
                                         @endforeach
                                     </div>
@@ -78,7 +78,7 @@
                     <h5 class="mb-3">Discover more of what matters to you</h5>
                     <div class="row">
                         @foreach(App\Models\Tag::all() as $tag)
-                            <div class="col-sm-4 col-md-3 col-lg-2">
+                            <div class="col-sm-4 col-md-3 col-lg-2 mx-3">
                                 <a class="btn btn-dark btn-sm mb-2 rounded-pill px-3"
                                     href="{{ route('tag.show', $tag->name) }}">{{ $tag->name }}</a>
                             </div>
