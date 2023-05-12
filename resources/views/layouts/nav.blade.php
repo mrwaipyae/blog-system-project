@@ -44,16 +44,17 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center">
                     <li class="nav-item">
-                        <form class="d-flex">
-                            <div class="input-group">
-                                <input class="form-control rounded-pill" type="search" placeholder="Search"
-                                    aria-label="Search">
-                            </div>
-                        </form>
+                        <div class="position-relative search-container">
+                            <form method="GET" action="{{ route('search') }}">
+                                <input type="text" class="form-control me-2 rounded-pill" name="query" id="search-input"
+                                    placeholder="Search..." value="{{ request('query') }}">
+                            </form>
+                            <ul class=" list-group position-absolute bg-dark text-light" id="search-suggestions">
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('post.new') }}">
@@ -77,9 +78,6 @@
             </div>
         </div>
     </nav>
-
-
-
 @else
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-3 py-2 mb-2 border-bottom">
         <div class="container-fluid">
@@ -114,6 +112,4 @@
             </div>
         </div>
     </nav>
-
-
 @endif

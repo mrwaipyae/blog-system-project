@@ -14,9 +14,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.min.js"></script>
     <style>
-        .top-30 {
-            top: 120px !important;
+        .search-container {
+            position: relative;
+        }
+
+        #search-suggestions {
+
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 999;
+            width: 100%;
+            background-color: #fff;
+
+            border-radius: 0 0 0.5rem 0.5rem;
+
+            margin-top: 0.5rem;
+        }
+
+        #search-suggestions li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        #search-suggestions li a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 0;
+        }
+
+        #search-suggestions li a:hover {
+            background-color: #eee;
         }
 
     </style>
@@ -31,27 +66,31 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <form class="d-flex" role="search">
-                    <div class="">
-                        <input class="form-control me-2 rounded-pill" type="search" placeholder="Search"
-                            aria-label="Search">
-                    </div>
-                </form>
+
+                <div class="position-relative search-container">
+                    <form method="GET" action="{{ route('search') }}">
+                        <input type="text" class="form-control me-2 rounded-pill" name="query" id="search-input"
+                            placeholder="Search..." value="{{ request('query') }}">
+                    </form>
+                    <ul class="list-group position-absolute bg-dark text-light" id="search-suggestions"></ul>
+                </div>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto  d-flex align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('post.new') }}"><i
-                                    class="bi bi-pencil-square me-2"></i>Write</a>
+                            <a class="nav-link" href="{{ route('post.new') }}">
+                                <i class="bi bi-pencil-square me-2"></i>Write
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="" class="nav-link btn dropdown-toggle pb-1" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <a href="{{ route('logout') }}" class="nav-link btn dropdown-toggle pb-1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{{ asset('storage/profile_images/'.Auth::user()->profile_image) }}"
                                     alt="User Profile" class="rounded-circle" width="35" height="35">
                             </a>
                             <ul class="dropdown-menu" style=" overflow-y: auto; left:-100px; top: 50px">
                                 <li>
-                                    <a class="dropdown-item btn" data-bs-toggle="modal"
+                                    <a class="dropdown-item btn" data-bs-toggle="modal" href=""
                                         data-bs-target="#logoutModal">Logout</a>
                                 </li>
                             </ul>
@@ -60,8 +99,6 @@
                 </div>
             </div>
         </nav>
-
-
 
     @else
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top px-5 py-4 mb-2 border-bottom">
@@ -165,14 +202,12 @@
         </section>
     @endif
 
-
     <section class="py-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-lg-8 overflow-auto">
                     @foreach($posts as $post)
                         <div class="mb-4">
-
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="d-flex align-items-center mb-2">
@@ -184,10 +219,7 @@
                                         <a href="" class="nav-link">
                                             <p class="m-0">{{ $post->user->name }}</p>
                                         </a>
-
                                     </div>
-
-
                                     <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
                                         class="text-decoration-none text-black">
                                         <h5>{{ $post->title }}</h5>
@@ -198,24 +230,18 @@
                                                 $words = str_word_count($content, 1);
                                                 $limitedWords = array_slice($words, 0, 20);
                                                 $limitedContent = implode(' ', $limitedWords);
-
                                             @endphp
                                             {!! $limitedContent . "..." !!}
-                                            <!-- {!! Str::limit(strip_tags($post->content), $limit = 150, $end = '...') !!} -->
                                         </p>
                                     </a>
                                     <div class="d-flex align-items-center">
-                                        <span
-                                            class="text-muted me-2">{{ date("F j", strtotime($post->created_at)) }}</span>
+                                        <span class="text-muted me-2">
+                                            {{ date("F j", strtotime($post->created_at)) }}
+                                        </span>
                                         @foreach($post->tags as $tag)
-                                            <!-- <a href="#" class="text-decoration-none text-black">
-                                                    <span
-                                                        class="badge bg-secondary text-center px-2 rounded-pill">{{ $tag->name }}</span>
-                                                </a> -->
-
-                                            <a
-                                                class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">{{ $tag->name }}</a>
-
+                                            <a class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">
+                                                {{ $tag->name }}
+                                            </a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -250,148 +276,8 @@
         </div>
     </section>
 
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="email"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email') }}" required
-                                    autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-                            <div class="col-md-6">
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror" name="password"
-                                    required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit"
-                                    class="btn btn-primary">{{ __('Login') }}</button>
-
-                                @if(Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
 
 
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--Register Modal -->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{ route('register') }}"
-                        enctype="multipart/form-data">
-                        @csrf
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">{{ __('Name') }}</label>
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                                name="name" value="{{ old('name') }}" required autocomplete="name"
-                                autofocus>
-
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">{{ __('Email Address') }}</label>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                            @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="profile_image"
-                                class="form-label">{{ __('Profile Image') }}</label>
-
-
-                            <input id="profile_image" type="file"
-                                class="form-control @error('profile_image') is-invalid @enderror" name="profile_image">
-
-                            @error('profile_image')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="password" class="form-label">{{ __('Password') }}</label>
-                            <input id="password" type="password"
-                                class="form-control @error('password') is-invalid @enderror" name="password" required
-                                autocomplete="new-password">
-
-                            @error('password')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="password-confirm"
-                                class="form-label">{{ __('Confirm Password') }}</label>
-                            <input id="password-confirm" type="password" class="form-control"
-                                name="password_confirmation" required autocomplete="new-password">
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit"
-                                class="btn btn-primary">{{ __('Register') }}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -423,8 +309,6 @@
             </div>
         </div>
     </div>
-
-
 </body>
 
 </html>

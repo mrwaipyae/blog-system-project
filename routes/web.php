@@ -7,27 +7,12 @@ use App\Http\Controllers\Admin\AdminTagController;
 use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|   
-*/
-
-
-
-
+use App\Http\Controllers\SearchController;
 
 // ADMIN
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
@@ -77,9 +62,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 });
 
 // USER
-
 Route::get('/', [PostController::class, 'index']);
 Route::get('/{user}-{id}',[UserController::class,'showPosts'])->name('user.posts');
+Route::get('/search', [SearchController::class,'search'])->name('search');
 Route::get('/new',[PostController::class,'new'])->name('post.new');
 Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
 Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
@@ -87,9 +72,5 @@ Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.
 Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->middleware('auth')->name('post.like');
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
-
-
-
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

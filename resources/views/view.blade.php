@@ -50,7 +50,7 @@
                 
                 
                 
-                <button class="btn nav-link ms-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                <button id="comment" class="btn nav-link ms-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight">
                 <i class="bi bi-chat me-1"></i>{{$post->comments()->count()}}
                 </button>
