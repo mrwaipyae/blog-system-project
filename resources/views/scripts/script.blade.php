@@ -2,11 +2,13 @@
     window.addEventListener('pageshow', function (event) {
         var searchInput = document.getElementById('search-input');
         if (searchInput) {
-            searchInput.value = '{{ request('query') }}';
+            searchInput.value = "{{ request('query') }}";
         }
     });
     $(document).ready(function () {
         var timer; // declare timer variable
+        var suggestionsContainer = $('#search-suggestions'); // cache the suggestions container
+
         $('#search-input').on('input', function () {
             clearTimeout(timer); // clear the timer on every input change
             var query = $(this).val();
@@ -22,7 +24,7 @@
                         var suggestions = '';
                         if (query === '') {
                             // clear the suggestions if query is empty
-                            $('#search-suggestions').html(suggestions);
+                            suggestionsContainer.html('');
                             return;
                         }
                         $.each(data.users, function (index, user) {
@@ -39,15 +41,23 @@
 
                         $.each(data.posts, function (index, post) {
                             suggestions +=
-                                '<li class="border"><a href="' +
+                                '<li><a href="' +
                                 post
                                 .url + '">' + post
                                 .title + '</a></li>';
                         });
-                        $('#search-suggestions').html(suggestions);
+
+                        suggestionsContainer.html(suggestions);
                     }
                 });
-            }, 100); // wait for 500ms before sending request
+            }, 100); // wait for 100ms before sending request
+        });
+
+        // Hide suggestions on click outside of container
+        $(document).click(function (event) {
+            if (!$(event.target).closest('#search-container').length) {
+                suggestionsContainer.empty();
+            }
         });
     });
 

@@ -26,14 +26,16 @@ class Post extends Model
         return $this->hasMany(Like::class);
     }
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
 
     public function commentsWithUser()
-{
-    return $this->comments()->with('user');
-}
+    {
+        return $this->comments()->with('user');
+    }
+    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
+    }
+
 
 }

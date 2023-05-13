@@ -13,6 +13,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\HomeController;
 
 // ADMIN
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
@@ -61,16 +62,33 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::post('/tags/{name}', [AdminTagController::class, 'view'])->name('admin.tags.view');
 });
 
-// USER
-Route::get('/', [PostController::class, 'index']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/new',[PostController::class,'new'])->name('post.new');
+    Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
+    Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
+    Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->name('post.like');
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+});
+
+Route::get('/', [HomeController::class, 'index']);
 Route::get('/{user}-{id}',[UserController::class,'showPosts'])->name('user.posts');
-Route::get('/search', [SearchController::class,'search'])->name('search');
-Route::get('/new',[PostController::class,'new'])->name('post.new');
-Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
-Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
 Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.view');
-Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->middleware('auth')->name('post.like');
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/search', [SearchController::class,'search'])->name('search');
+
+// USER
+// Route::get('/', [PostController::class, 'index']);
+// Route::get('/home', [PostController::class, 'index']);
+
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/{user}-{id}',[UserController::class,'showPosts'])->name('user.posts');
+// Route::get('/search', [SearchController::class,'search'])->name('search');
+// Route::get('/new',[PostController::class,'new'])->name('post.new');
+// Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
+// Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
+// Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.view');
+// Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->middleware('auth')->name('post.like');
+// Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

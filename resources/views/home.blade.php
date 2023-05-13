@@ -1,62 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
-    </script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light px-2 py-3 mb-2 border-bottom">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">InkSpire</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <form class="d-flex" role="search">
-                <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search">
-            </form>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Our Story</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Write</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn text-white nav-link rounded-pill px-3 bg-dark" data-bs-toggle="modal"
-                            data-bs-target="#registerModal">Get Started</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <main>
+@extends('layouts.master')
+@section('content')
+    
+    @include('layouts.nav')
+    <section class="py-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-lg-8 overflow-auto">
+                    @foreach($posts as $post)
+                        <div class="mb-4">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <a
+                                            href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}">
+                                            <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
+                                                alt="User Profile" class="rounded-circle me-2" width="30" height="30">
+                                        </a>
+                                        <a href="" class="nav-link">
+                                            <p class="m-0">{{ $post->user->name }}</p>
+                                        </a>
+                                    </div>
+                                    <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
+                                        class="text-decoration-none text-black">
+                                        <h5>{{ $post->title }}</h5>
 
+                                        <p class="text-gray">
+                                            @php
+                                                $content = strip_tags($post->content);
+                                                $words = str_word_count($content, 1);
+                                                $limitedWords = array_slice($words, 0, 20);
+                                                $limitedContent = implode(' ', $limitedWords);
+                                            @endphp
+                                            {!! $limitedContent . "..." !!}
+                                        </p>
+                                    </a>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted me-2">
+                                            {{ date("F j", strtotime($post->created_at)) }}
+                                        </span>
+                                        @foreach($post->tags as $tag)
+                                            <a class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">
+                                                {{ $tag->name }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    @if($post->image)
+                                        <img src="{{ asset('img/' . $post->image) }}"
+                                            alt="{{ $post->title }}" class="img-fluid" style="width:90%;">
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                    @endforeach
                 </div>
                 <div class="col-md-4 col-lg-4">
+                    <div
+                        class="sticky-top {{ (Auth::check())?'top-0':'top-30' }}">
+                        <h5 class="mb-3">Discover more of what matters to you</h5>
+                        <div class="row">
+                            @foreach(App\Models\Tag::all() as $tag)
+                                <div class="col-sm-4 col-md-3 col-lg-2 mx-3">
+                                    <a class="btn btn-dark btn-sm mb-2 rounded-pill px-3"
+                                        href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
+                                </div>
+                            @endforeach
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
-</body>
+    </section>
+    
+@endsection
 
-</html>

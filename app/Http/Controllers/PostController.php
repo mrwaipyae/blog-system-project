@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    public function index()
-    {
-        $posts = Post::all();
-        return view('/welcome', ['posts' => $posts]);
-    }
+    // public function index()
+    // {
+    //     $posts = Post::all();
+    //     return view('/welcome', ['posts' => $posts]);
+    // }
+
+   
 
     public function view($user, $titleAndId)
     {
