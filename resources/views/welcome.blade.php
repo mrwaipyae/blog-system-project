@@ -78,9 +78,8 @@
                         <a class="nav-link btn" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('register') }}"
-                            class="btn text-white nav-link rounded-pill px-3 bg-dark" data-bs-toggle="modal"
-                            data-bs-target="#registerModal">Get Started</a>
+                        <a href="{{ route('register') }}" class="btn text-white nav-link rounded-pill px-3 bg-dark">Get
+                            Started</a>
                     </li>
                 </ul>
             </div>
@@ -112,122 +111,115 @@
             </div>
         </div>
     </section>
+    <!-- trending post -->
     <section class="py-5 border-bottom">
         <div class="container">
-            <h2 class="mb-4">Popular Posts</h2>
+            <h2 class="mb-4">Trending on InkSpire</h2>
             <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach($popularPosts as $popularPost)
                 <div class="col">
-                    <div class="card h-100">
+                    <div class="card">
                         <div class="card-body">
-                            <div class="mb-2 text-muted">by <a href="#">John Doe</a> in <a href="#">Technology</a>
+                            <div class="mb-2 text-muted">
+                                <img src="{{ asset('storage/profile_images/'.$popularPost->user->profile_image) }}"
+                                    alt="User Profile" class="rounded-circle me-2" width="30" height="30">
+                                <span class="text-dark">{{ $popularPost->user->name }}</span>
+                                in
+                                @foreach($popularPost->tags as $tag)
+                                <span class="text-dark me-1">{{ $tag->name }}</span>
+                                @endforeach
                             </div>
                             <h5 class="card-title mb-3">How to Build a Website from Scratch</h5>
                             <div class="mb-2"><small class="text-muted">May 4</small></div>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                                gravida
-                                felis sed blandit ultrices. Suspendisse potenti.</p>
+
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="mb-2 text-muted">by <a href="#">Jane Smith</a> in <a href="#">Culture</a>
-                            </div>
-                            <h5 class="card-title mb-3">The Art of Listening: A Guide to Active Listening</h5>
-                            <div class="mb-2"><small class="text-muted">May 3</small></div>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                                gravida
-                                felis sed blandit ultrices. Suspendisse potenti.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="mb-2 text-muted">by <a href="#">David Lee</a> in <a href="#">Business</a>
-                            </div>
-                            <h5 class="card-title mb-3">10 Tips for Effective Time Management</h5>
-                            <div class="mb-2"><small class="text-muted">May 2</small></div>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                                gravida
-                                felis sed blandit ultrices. Suspendisse potenti.</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
-
-
     <section class="py-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-lg-8 overflow-auto">
                     @foreach($posts as $post)
-                        <div class="mb-4">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <a
-                                            href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}">
-                                            <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
-                                                alt="User Profile" class="rounded-circle me-2" width="30" height="30">
-                                        </a>
-                                        <a href="" class="nav-link">
-                                            <p class="m-0">{{ $post->user->name }}</p>
-                                        </a>
-                                    </div>
-                                    <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
-                                        class="text-decoration-none text-black">
-                                        <h5>{{ $post->title }}</h5>
-
-                                        <p class="text-gray">
-                                            @php
-                                                $content = strip_tags($post->content);
-                                                $words = str_word_count($content, 1);
-                                                $limitedWords = array_slice($words, 0, 20);
-                                                $limitedContent = implode(' ', $limitedWords);
-                                            @endphp
-                                            {!! $limitedContent . "..." !!}
-                                        </p>
+                    <div class="mb-4">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="d-flex align-items-center mb-2">
+                                    <a
+                                        href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}">
+                                        <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
+                                            alt="User Profile" class="rounded-circle me-2" width="30" height="30">
                                     </a>
-                                    <div class="d-flex align-items-center">
-                                        <span class="text-muted me-2">
-                                            {{ date("F j", strtotime($post->created_at)) }}
-                                        </span>
-                                        @foreach($post->tags as $tag)
-                                            <a class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">
-                                                {{ $tag->name }}
-                                            </a>
-                                        @endforeach
-                                    </div>
+                                    <a href="" class="nav-link">
+                                        <p class="m-0">{{ $post->user->name }}</p>
+                                    </a>
                                 </div>
-                                <div class="col-md-4 d-flex align-items-center">
-                                    @if($post->image)
-                                        <img src="{{ asset('img/' . $post->image) }}"
-                                            alt="{{ $post->title }}" class="img-fluid" style="width:90%;">
-                                    @endif
+                                <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
+                                    class="text-decoration-none text-black">
+                                    <h5>{{ $post->title }}</h5>
+
+                                    <p class="text-gray">
+                                        @php
+                                        $content = strip_tags($post->content);
+                                        $words = str_word_count($content, 1);
+                                        $limitedWords = array_slice($words, 0, 20);
+                                        $limitedContent = implode(' ', $limitedWords);
+                                        @endphp
+                                        {!! $limitedContent . "..." !!}
+                                    </p>
+                                </a>
+                                <div class="d-flex align-items-center">
+                                    <span class="text-muted me-2">
+                                        {{ date("F j", strtotime($post->created_at)) }}
+                                    </span>
+                                    @foreach($post->tags as $tag)
+                                    <a class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">
+                                        {{ $tag->name }}
+                                    </a>
+                                    @endforeach
                                 </div>
                             </div>
+                            <div class="col-md-4 d-flex align-items-center">
+                                @if($post->image)
+                                <img src="{{ asset('img/' . $post->image) }}" alt="{{ $post->title }}" class="img-fluid"
+                                    style="width:90%;">
+                                @endif
+                            </div>
                         </div>
-                        <hr>
+                    </div>
+                    <hr>
 
                     @endforeach
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    <div
-                        class="sticky-top {{ (Auth::check())?'top-0':'top-30' }}">
+                    <div class="sticky-top {{ (Auth::check())?'top-0':'top-30' }}">
                         <h5 class="mb-3">Discover more of what matters to you</h5>
-                        <div class="row">
+                        <div class="row mb-3">
                             @foreach(App\Models\Tag::all() as $tag)
-                                <div class="col-sm-4 col-md-3 col-lg-2 mx-3">
-                                    <a class="btn btn-dark btn-sm mb-2 rounded-pill px-3"
-                                        href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
-                                </div>
+                            <div class="col-sm-4 col-md-3 col-lg-2 mx-4">
+                                <a class="btn btn-outline-dark btn-sm mb-2 rounded-pill px-2"
+                                    href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
+                            </div>
                             @endforeach
                         </div>
-
+                        <div>
+                            <h5 class="text-muted py-3">Recent Posts</h5>
+                            <ul class="list-unstyled">
+                            @foreach($recentPosts as $post)
+                                <li class="mb-3">
+                                    <a href=""
+                                        class="text-dark text-decoration-none">
+                                        <h6>{{ $post->title }}</h6>
+                                    </a>
+                                    <p class="text-muted mb-0">{{ $post->created_at->diffForHumans() }}</p>
+                                </li>
+                            @endforeach
+                        </ul>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

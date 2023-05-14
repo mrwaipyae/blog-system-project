@@ -27,14 +27,18 @@ class HomeController extends Controller
     {
         $posts = Post::all();
         $popularPosts = Post::withCount('likes')
-                    ->orderByDesc('likes_count')
-                    ->take(6)
-                    ->get();
+            ->orderByDesc('likes_count')
+            ->take(6)
+            ->get();
+
+        $recentPosts = Post::latest()->take(6)->get();
+
+
 
         if (Auth::check()) {
-            return view('home',['posts' => $posts,'popularPosts'=>$popularPosts]);
+            return view('home', ['posts' => $posts, 'popularPosts' => $popularPosts, 'recentPosts' => $recentPosts]);
         } else {
-            return view('welcome',['posts' => $posts,'popularPosts'=>$popularPosts]);
+            return view('welcome', ['posts' => $posts, 'popularPosts' => $popularPosts, 'recentPosts' => $recentPosts]);
         }
     }
 }
