@@ -39,7 +39,7 @@
                                     {{ date("F j", strtotime($post->created_at)) }}
                                 </span>
                                 @foreach($post->tags as $tag)
-                                <a class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">
+                                <a class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0 mx-1">
                                     {{ $tag->name }}
                                 </a>
                                 @endforeach
@@ -83,7 +83,7 @@
                     <div class="row mb-3">
                         @foreach(App\Models\Tag::all() as $tag)
                         <div class="col-sm-4 col-md-3 col-lg-2 mx-4">
-                            <a class="btn btn-outline-dark btn-sm mb-2 rounded-pill px-2"
+                            <a class="btn btn-light btn-sm mb-2 rounded-pill px-2"
                                 href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
                         </div>
                         @endforeach

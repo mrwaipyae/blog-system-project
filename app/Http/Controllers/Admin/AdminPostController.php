@@ -24,12 +24,14 @@ class AdminPostController extends Controller
 
     public function show($user, $titleAndId)
     {
+
         // Extract the post ID from the end of the $titleAndId string
         $id = (int) Str::afterLast($titleAndId, '-');
 
         // Extract the title from the $titleAndId string
         $title = Str::beforeLast($titleAndId, '-');
-        $post = Post::findOrFail($id);
+        // Retrieve the post including any deleted ones
+        $post = Post::withTrashed()->findOrFail($id);
 
         return view('admin/posts/show', compact('post'));
     }
