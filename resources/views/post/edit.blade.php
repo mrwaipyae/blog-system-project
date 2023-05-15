@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('layouts.master')
 @section('link')
 <style>
     .ck-content {
@@ -7,15 +7,14 @@
 
 </style>
 @endsection
-@section('page_title','admin')
 @section('content')
-
+@include('layouts.nav')
 <div class="container my-1">
     <div class="row">
         <div class="col-lg-11 mx-auto">
             <h3>Edit Post</h3>
             <form method="POST"
-                action="{{ route('admin.posts.update',['id'=>$post->id]) }}"
+                action="{{ route('post.update',['id'=>$post->id]) }}"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')

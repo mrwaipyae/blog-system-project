@@ -74,12 +74,12 @@
                 <div
                     class="sticky-top {{ (Auth::check())?'top-0':'top-30' }}">
                     <h5 class="mb-3">Discover more of what matters to you</h5>
-                    <div class="row">
+                    <div class="row mb-3">
                         @foreach(App\Models\Tag::all() as $tag)
-                            <div class="col-sm-4 col-md-3 col-lg-2">
-                                <a class="btn btn-dark btn-sm mb-2 rounded-pill px-3"
-                                    href="{{ route('tag.show', $tag->name) }}">{{ $tag->name }}</a>
-                            </div>
+                        <div class="col-sm-4 col-md-3 col-lg-2 mx-4">
+                            <a class="btn btn-light btn-sm mb-2 rounded-pill px-2"
+                                href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
+                        </div>
                         @endforeach
                     </div>
 

@@ -19,7 +19,10 @@ class AdminDashboardController extends Controller
             ->select(DB::raw('DATE(created_at) as date'), DB::raw('CAST(count(*) AS UNSIGNED) as total'))
             ->groupBy(DB::raw('DATE(created_at)'))
             ->get();
-        
+        // $posts= DB::table('posts')
+        //         ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+        //         ->groupBy(DB::raw('MONTH(created_at)'))
+        //         ->get();
         return view('admin.dashboard', ['posts'=>$posts,'postCount' => $postCount,
         'userCount' => $userCount,
         'tagCount' => $tagCount]);

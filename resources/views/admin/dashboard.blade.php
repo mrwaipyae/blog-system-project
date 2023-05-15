@@ -1,7 +1,12 @@
 @extends('admin.layouts.master')
 @section('content')
 
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" ><a href="#" class="fw-bold">Admin</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><span class="fw-bold">Dashboard<span></li>
+    </ol>
+  </nav>
 <div class="row mb-3 py-5">
     <div class="col-md-4">
         <div class="card">
@@ -33,9 +38,7 @@
 // Initialize empty data array
 $data = array();
 $data[] = array('Month', 'Posts');
-
 // Loop through posts and add to data array if within date range
-
 foreach ($posts as $post) {
     $month = date('F Y', strtotime($post->date));
     if (!isset($data[$month])) {
@@ -43,21 +46,23 @@ foreach ($posts as $post) {
     }
     $data[$month][1] += floatval($post->total);
 }
-
 // Sort data array by month in ascending order
-// ksort($data);
 $data = array_values($data);
-
 @endphp
-
-<!-- Rest of the dashboard content -->
-
 
 <!-- Add input fields for start and end date selection -->
 <input type="date" id="start_date">
 <input type="date" id="end_date">
 <button class="btn btn-dark" onclick="updateChart()">Update Chart</button>
-<div id="chart_div" style="width: 40%; height: 500px;"></div>
+<div class="row">
+    <div class="col-md-6">
+        <div id="column_chart_div" style="width: 100%; height: 500px;"></div>
+    </div>
+    <div class="col-md-6">
+        <div id="table_chart_div" style="width: 100%; height: 500px;"></div>
+    </div>
+</div>
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {'packages':['corechart']});
@@ -69,8 +74,10 @@ $data = array_values($data);
         var options = {
             title: 'Total Posts by Month'
         };
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('column_chart_div'));
         chart.draw(data, options);
+        var table = new google.visualization.Table(document.getElementById('table_chart_div'));
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
     }
 
     // Update chart with data within selected date range
@@ -85,7 +92,7 @@ $data = array_values($data);
         console.log(formattedStartDate,formattedEndDate);
         // Retrieve all data from PHP array
         var allData = <?php echo json_encode($data); ?>;
-
+        
         // Initialize filtered data array with headers
         var filteredData = [];
         filteredData.push(allData[0]);
@@ -95,7 +102,6 @@ $data = array_values($data);
         for (var i = 0; i < allData.length; i++) {
             if ((new Date(allData[i][0]) >= new Date(formattedStartDate)) && (new Date(allData[i][0]) <= new Date(formattedStartDate))) {
                 filteredData.push(allData[i]);
-
             }
         }
         console.log(filteredData);
@@ -107,10 +113,10 @@ $data = array_values($data);
             var options = {
                 title: 'Total Posts by Month'
             };
-            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+            var chart = new google.visualization.ColumnChart(document.getElementById('column_chart_div'));
             chart.draw(data, options);
         } else {
-            document.getElementById('chart_div').innerHTML = "No posts for the selected date range.";
+            document.getElementById('column_chart_div').innerHTML = "No posts for the selected date range.";
         }
     }
 </script>

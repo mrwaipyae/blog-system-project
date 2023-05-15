@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,12 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InkSpire - @yield('page_title')</title>
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
-    </script>
     <link rel="stylesheet" href="{{ URL::asset('css/admin/style.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -31,15 +26,23 @@
                         class="img img-fluid img-thumbnail accountImg" width="90" />
                     <p class="text-center">{{ Auth::user()->name }}</p>
                 </div>
-                    <nav class="adminNav">
-                        <a href="{{ url('/admin/dashboard') }}" class="{{ Request::is('admin/dashboard') ? 'selected' : '' }}"><i class="bi bi-house me-1"></i>Dashboard</a>
-                        <a href="{{ route('admin.posts') }}" class="{{ Request::is('admin/posts*') ? 'selected' : '' }}"><i class="bi bi-clipboard-check me-1"></i>Post Management</a>
-                        <a href="{{ route('admin.users') }}" class="{{ Request::is('admin/users*') ? 'selected' : '' }}"><i class="bi bi-key me-1"></i>User Management</a>
-                        <a href="{{ route('admin.tags') }}" class="{{ Request::is('admin/tags*') ? 'selected' : '' }}"><i class="bi bi-brush me-1"></i>Tag management</a>
-                        <a href="#" class="{{ Request::is('admin/reports*') ? 'selected' : '' }}"><i class="bi bi-justify me-1"></i>Reports</a>
-                        <a href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-1"></i>Logout</a>
-                    </nav>         
-                </div>
+                <nav class="adminNav">
+                    <a href="{{ url('/admin/dashboard') }}"
+                        class="{{ Request::is('admin/dashboard') ? 'selected' : '' }}"><i
+                            class="bi bi-house me-1"></i>Dashboard</a>
+                    <a href="{{ route('admin.posts') }}"
+                        class="{{ Request::is('admin/posts*') ? 'selected' : '' }}"><i
+                            class="bi bi-clipboard-check me-1"></i>Post Management</a>
+                    <a href="{{ route('admin.users') }}"
+                        class="{{ Request::is('admin/users*') ? 'selected' : '' }}"><i
+                            class="bi bi-key me-1"></i>User Management</a>
+                    <a href="{{ route('admin.tags') }}"
+                        class="{{ Request::is('admin/tags*') ? 'selected' : '' }}"><i
+                            class="bi bi-brush me-1"></i>Tag management</a>
+                    <a href="{{ route('logout') }}"><i
+                            class="bi bi-box-arrow-right me-1"></i>Logout</a>
+                </nav>
+            </div>
 
             <!-- right -->
             <div class="col-md-10 bg-white">
@@ -49,7 +52,6 @@
                             <i class="bi bi-person-check-fill me-1"></i>Admin Pannel
                         </h5>
                     </div>
-
                     <div class="col-md-6">
                         <nav class="navbar navbar-expand-lg navbar-light justify-content-end">
                             <ul class="navbar-nav py-1 text-end">
@@ -120,38 +122,38 @@
         </div>
     </div>
 
-    
-    <script src="{{asset('ckeditor5/ckeditor.js')}}"></script>
+
+    <script src="{{ asset('ckeditor5/ckeditor.js') }}"></script>
     <script>
-         window.addEventListener('load',function(){
+        window.addEventListener('load', function () {
             ClassicEditor
-              .create( document.querySelector( '#editor' ),{ 
+                .create(document.querySelector('#editor'), {
                     ckfinder: {
-                          uploadUrl: "{{route('uploadFile').'?_token='.csrf_token()}}",
+                        uploadUrl: "{{ route('uploadFile').'?_token='.csrf_token() }}",
                     }
-              } )
-              .then( editor => {
-            
-                    console.log( editor );
-            
-              } )
-              .catch( error => {
-                    console.error( error );
-              } );
-         });
+                })
+                .then(editor => {
+
+                    console.log(editor);
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+
     </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
-
-
     @section('script')
-
     @show
 </body>
 

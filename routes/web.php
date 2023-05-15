@@ -14,6 +14,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserProfileController;
 
 // ADMIN
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
@@ -22,6 +23,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 
     // Post index
     Route::get('/posts', [AdminPostController::class, 'index'])->name('admin.posts');
+    Route::get('/posts/records', [AdminPostController::class, 'records'])->name('posts.records');
 
     // Post creation
     Route::get('posts/new', [AdminPostController::class, 'newPost'])->name('admin.posts.new');
@@ -66,15 +68,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 Route::middleware(['auth'])->group(function () {
     Route::get('/new',[PostController::class,'new'])->name('post.new');
     Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
-    Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
     Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->name('post.like');
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('/me',[UserProfileController::class,'index']);
+    Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('post.edit');
+    Route::put('/post/{id}', [PostController::class, 'update'])->name('post.update');
+    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('post.destroy');
 });
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
 Route::get('/{user}-{id}',[UserController::class,'showPosts'])->name('user.posts');
 Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.view');
 Route::get('/search', [SearchController::class,'search'])->name('search');
+
 
 // USER
 // Route::get('/', [PostController::class, 'index']);

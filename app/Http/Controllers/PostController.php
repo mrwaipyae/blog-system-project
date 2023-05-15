@@ -118,4 +118,42 @@ class PostController extends Controller
  
          return response()->json($data);
      }
+
+     public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        $tags = Tag::all();
+        return view('post.edit', ['post' => $post, 'tags' => $tags]);
+    }
+
+    public function update(Request $request, $id)
+    {
+     
+        $post = Post::findOrFail($id);
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'tags' => 'nullable|array',
+            'tags.*' => 'nullable|exists:tags,id',
+        ]);
+        $post->title = $request->title;
+        $post->content = $request->content;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/images', $filename);
+            $post->image = $filename;
+        }
+        $post->tags()->sync($request->tags);
+        $post->save();
+        return redirect('me')->with('success', 'Post updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->forceDelete();
+        return redirect()->back();
+    }
 }

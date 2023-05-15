@@ -13,33 +13,53 @@
 <div class="container my-1">
     <div class="row">
         <div class="col-lg-11 mx-auto">
+            @if(count($errors))
+                <div class="alert alert-danger mt-3">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <h3 class="mb-4">Create New Post</h3>
             <form method="POST" action="{{ route('admin.posts.create') }}"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="form-group mb-3">
-                    <input type="text" name="title" class="form-control form-control-lg" placeholder="Title">
+                    <input type="text" name="title" class="form-control form-control-lg" placeholder="Title"
+                        value="{{ old('title') }}">
+                    @if($errors->has('title'))
+                        <div class="invalid-feedback">{{ $errors->first('title') }}</div>
+                    @endif
                 </div>
                 <div class="form-group mb-3">
-                    <select name="tags[]" id="tags" class="form-control">
-                        <option value="">Choose Tag</option>
+                    <select name="tags[]" id="tags" class="form-control @error('tags') is-invalid @enderror">
                         @foreach($tags as $tag)
-                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            <option value="{{ $tag->id }}" {{ (in_array($tag->id, old('tags', [])) || $tag->id == old('tags')) ? 'selected' : '' }}>{{ $tag->name }}</option>
                         @endforeach
                     </select>
+                    @if ($errors->has('tags') && $errors->first('tags') == "The tags field is required.")
+                        <div class="invalid-feedback d-block">{{ $errors->first('tags') }}</div>
+                    @elseif ($errors->has('tags'))
+                        <div class="invalid-feedback">{{ $errors->first('tags') }}</div>
+                    @endif
                 </div>
-                <div></div>
-
                 <div class="form-group mb-3">
                     <label for="thumbnail" class="form-label fs-5 me-5">Thumbnail: </label>
                     <input id="image" type="file" class="form-control-file @error('image') is-invalid @enderror"
-                        name="image">
+                        name="image" required>
+                    @if($errors->has('image'))
+                        <div class="invalid-feedback">{{ $errors->first('image') }}</div>
+                    @endif
                 </div>
                 <div class="form-group mb-3">
-                    <textarea name="content" id="editor" class="form-control" rows="10"></textarea>
+                    <textarea name="content" id="editor" class="form-control"
+                        rows="10">{{ old('content') }}</textarea>
+                    @if($errors->has('content'))
+                        <div class="invalid-feedback">{{ $errors->first('content') }}</div>
+                    @endif
                 </div>
-
-
                 <div class="form-group text-center">
                     <a href="{{ route('admin.posts') }}"
                         class="btn btn-secondary btn-lg px-3">Back</a>
@@ -49,4 +69,5 @@
         </div>
     </div>
 </div>
+
 @endsection

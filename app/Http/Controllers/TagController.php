@@ -11,7 +11,6 @@ class TagController extends Controller
 { 
     $tag = Tag::where('name', $tag)->firstOrFail();
     $posts = $tag->posts;
-
     return view('/tag', compact('posts'),['tag'=>$tag]);
 }
 

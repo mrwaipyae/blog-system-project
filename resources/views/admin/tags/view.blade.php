@@ -10,7 +10,7 @@
             <p>Total Posts: {{ $totalPosts }}</p>
             <p>Total users: {{ $tag->userCount() }}</p>
             @foreach($tagPosts as $post)
-                <a href="{{ route('post.show', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
+                <a href="{{ route('admin.post.show', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
                     class="text-decoration-none text-black">
                     <div class="row">
                         <div class="col-md-9">

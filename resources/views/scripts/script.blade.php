@@ -28,23 +28,36 @@
                             return;
                         }
                         $.each(data.users, function (index, user) {
-                            suggestions += '<li><a href="' + user
-                                .profile_url +
-                                '">' + user.name + '</a></li>';
+                            var username = user.name.toLowerCase().replace(
+                                /\s/g, '');
+                            var route =
+                                "{{ route('user.posts', [':username', ':id']) }}";
+                            route = route.replace(':username', '@' +
+                                username);
+                            route = route.replace(':id', user.id);
+                            suggestions += '<li><a href="' + route + '">' +
+                                user.name + '</a></li>';
                         });
 
+
                         $.each(data.tags, function (index, tag) {
-                            suggestions += '<li><a href="' + tag.url +
-                                '">' + tag
-                                .name + '</a></li>';
+                            var tagName = tag.name;
+                            var route =
+                                "{{ route('tag.show', ':name') }}";
+                            route = route.replace(':name', tagName);
+                            suggestions += '<li><a href="' + route + '">' +
+                                tagName + '</a></li>';
                         });
+
+
 
                         $.each(data.posts, function (index, post) {
                             suggestions +=
                                 '<li><a href="' +
-                                post
-                                .url + '">' + post
-                                .title + '</a></li>';
+                                "{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}" +
+                                '">' + post
+                                .title +
+                                '</a></li>';
                         });
 
                         suggestionsContainer.html(suggestions);

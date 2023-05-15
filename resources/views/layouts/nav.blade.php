@@ -27,11 +27,15 @@
                             <img src="{{ asset('storage/profile_images/'.Auth::user()->profile_image) }}"
                                 alt="User Profile" class="rounded-circle" width="35" height="35">
                         </a>
-                        <ul class="dropdown-menu" style="overflow-y: auto; left:-100px; top: 50px">
+                        <ul class="dropdown-menu dropdown-menu-dark" style="left:-100px; top: 50px">
+                            <li>
+                                <a class="dropdown-item btn" href="">Profile</a>
+                            </li>
                             <li>
                                 <a class="dropdown-item btn" data-bs-toggle="modal"
                                     data-bs-target="#logoutModal">Logout</a>
                             </li>
+
                         </ul>
                     </li>
                 </ul>

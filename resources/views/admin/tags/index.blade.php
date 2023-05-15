@@ -1,5 +1,9 @@
 @extends('admin/layouts/master')
 @section('page_title','admin')
+@section('link')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+@endsection
 @section('content')
 <div class="container mt-4">
     <div class="row">
@@ -7,15 +11,45 @@
             <!-- Tag navigation -->
             <div class="d-flex justify-content-between align-items-center mb-5">
                 <h3 class="mb-0 ">Tags</h3>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTagModal">Add New
-                    tag
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addTagModal">
+                    <i class="bi bi-plus-square"></i> Add New tag
                 </button>
             </div>
-            <!-- Category table -->
-            <table class="table table-bordered table-striped">
+            <!-- date input -->
+            <table class="row mb-2">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text btn btn-primary text-white" id="basic-addon1"><i
+                                            class="fas fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="from_date" placeholder="Start Date"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text btn btn-primary text-white" id="basic-addon1"><i
+                                            class="fas fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="to_date" placeholder="End Date" readonly>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <input type="submit" class="btn btn-outline-danger fw-bold" name="" id="reset"
+                                value="Reset">
+                        </div>
+                    </div>
+                </div>
+            </table>
+            <!-- data table -->
+            <table class="table table-bordered table-striped" id="myTable">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">No</th>
                         <th scope="col">Name</th>
                         <th>Created At</th>
                         <th>Updated At</th>
@@ -39,17 +73,15 @@
                                         style="display: inline-block;">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $tag->id }}">
-                                        <button type="submit" class="btn btn-info btn-sm"><i
-                                                class="fa fa-eye"></i></button>
+                                        <button type="submit" class="btn btn-info btn-sm" data-toggle="tooltip"
+                                            data-placement="top" title="View Tag"><i class="fa fa-eye"></i></button>
                                     </form>
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#editTagModal{{ $tag->id }}">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
+                                        data-target="#editTagModal{{ $tag->id }}" data-toggle="tooltip"
+                                        data-placement="top" title="Edit Tag"><i class="fa fa-edit"></i></button>
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                        data-target="#deleteTagModal{{ $tag->id }}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
+                                        data-target="#deleteTagModal{{ $tag->id }}" data-toggle="tooltip"
+                                        data-placement="top" title="Delete Tag"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                             <!-- Edit Tag Modal -->
@@ -143,4 +175,87 @@
     </div>
 </div>
 
+@endsection
+@section('script')
+<!-- Datepicker -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.js"></script>
+<script>
+    $(function () {
+        $("#from_date").datepicker({
+            "dateFormat": "yy-mm-dd"
+        });
+        $("#to_date").datepicker({
+            "dateFormat": "yy-mm-dd"
+        });
+    });
+
+    // Reset
+    $(document).on("click", "#reset", function (e) {
+        e.preventDefault();
+        location.reload();
+        $("#from_date").val(''); // empty value
+        $("#to_date").val('');
+
+    });
+
+    $(document).ready(
+        function () {
+            var table = $('#myTable').DataTable({
+                ordering: false,
+                lengthMenu: [5, 10, 15, 20, 25],
+
+                "columns": [{
+                    "data": "No"
+                }, {
+                    "data": "Name"
+                }, {
+                    "data": "Created At"
+                }, {
+                    "data": "Updated At"
+                }, {
+                    "data": "Actions"
+                }]
+            });
+            // Add date range filtering function
+            $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+                var min = $('#from_date').val();
+                var max = $('#to_date').val();
+                var date = new Date(data[2, 3]);
+                if ((min === "" && max === "")
+
+                    ||
+                    (min <= date.toISOString() && max === "")
+
+                    ||
+                    (max >= date.toISOString() && min === "")
+
+                    ||
+                    (min <= date.toISOString() && max >= date
+                        .toISOString())) {
+                    return true;
+                }
+                return false;
+            });
+
+            // Attach date filter to input fields
+
+            $('#from_date, #to_date').change(function () {
+                table.draw();
+            });
+
+            // Clear datepicker when table is redrawn
+
+            table.on('draw.dt', function () {
+                $('#from_date').val();
+                $('#to_date').val();
+            });
+
+        });
+
+</script>
 @endsection

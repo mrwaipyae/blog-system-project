@@ -122,15 +122,21 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="mb-2 text-muted">
-                                    <img src="{{ asset('storage/profile_images/'.$popularPost->user->profile_image) }}"
-                                        alt="User Profile" class="rounded-circle me-2" width="30" height="30">
+                                    <a href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($popularPost->user->name)), $popularPost->user->id]) }}"
+                                        class="nav-link d-inline-block">
+                                        <img src="{{ asset('storage/profile_images/'.$popularPost->user->profile_image) }}"
+                                            alt="User Profile" class="rounded-circle me-2" width="30" height="30">
+                                    </a>
                                     <span class="text-dark">{{ $popularPost->user->name }}</span>
                                     in
                                     @foreach($popularPost->tags as $tag)
                                         <span class="text-dark me-1">{{ $tag->name }}</span>
                                     @endforeach
                                 </div>
-                                <h5 class="card-title mb-3">How to Build a Website from Scratch</h5>
+                                <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($popularPost->user->name)), Str::slug($popularPost->title).'-'. $popularPost->id]) }}"
+                                    class="text-decoration-none text-black">
+                                    <h5 class="card-title mb-3">{{ $popularPost->title }}</h5>
+                                </a>
                                 <div class="mb-2"><small class="text-muted">May 4</small></div>
 
                             </div>
@@ -155,7 +161,8 @@
                                             <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
                                                 alt="User Profile" class="rounded-circle me-2" width="30" height="30">
                                         </a>
-                                        <a href="" class="nav-link">
+                                        <a href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}"
+                                            class="nav-link">
                                             <p class="m-0">{{ $post->user->name }}</p>
                                         </a>
                                     </div>
@@ -178,7 +185,8 @@
                                             {{ date("F j", strtotime($post->created_at)) }}
                                         </span>
                                         @foreach($post->tags as $tag)
-                                            <a class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1">
+                                            <a class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1"
+                                                href="{{ route('tag.show',$tag->name) }}">
                                                 {{ $tag->name }}
                                             </a>
                                         @endforeach
@@ -186,8 +194,12 @@
                                 </div>
                                 <div class="col-md-4 d-flex align-items-center">
                                     @if($post->image)
-                                        <img src="{{ asset('img/' . $post->image) }}"
-                                            alt="{{ $post->title }}" class="img-fluid" style="width:90%;">
+                                        <a
+                                            href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}">
+                                            <img src="{{ asset('img/' . $post->image) }}"
+                                                alt="{{ $post->title }}" class="img-fluid" style="width:90%;">
+                                        </a>
+
                                     @endif
                                 </div>
                             </div>
@@ -204,7 +216,7 @@
                         <div class="row mb-3">
                             @foreach(App\Models\Tag::all() as $tag)
                                 <div class="col-sm-4 col-md-3 col-lg-2 mx-4">
-                                    <a class="btn btn-outline-dark btn-sm mb-2 rounded-pill px-2"
+                                    <a class="btn btn-light btn-sm mb-2 rounded-pill px-2"
                                         href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
                                 </div>
                             @endforeach
