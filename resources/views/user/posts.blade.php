@@ -8,8 +8,7 @@
                 <div class="d-flex align-items-center mb-5">
                     <h1 class="fs-1 fw-bold me-2">{{$user->name}}</h1>
                 </div>
-                
-                @foreach($userPosts as $post)
+                @foreach($posts as $post)
                     <div class="mb-4">
                         <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
                             class="text-decoration-none text-black">
@@ -24,20 +23,14 @@
                                         <a href="" class="nav-link">
                                             <p class="m-0">{{ $post->user->name }}</p>
                                         </a>
-
                                     </div>
-
-
-
                                     <h5>{{ $post->title }}</h5>
-
                                     <p class="text-gray">
                                         @php
                                             $content = strip_tags($post->content);
                                             $words = str_word_count($content, 1);
                                             $limitedWords = array_slice($words, 0, 20);
                                             $limitedContent = implode(' ', $limitedWords);
-
                                         @endphp
                                         {!! $limitedContent . "..." !!}
                                         <!-- {!! Str::limit(strip_tags($post->content), $limit = 150, $end = '...') !!} -->
@@ -45,15 +38,11 @@
                                     <div class="d-flex align-items-center">
                                         <span
                                             class="text-muted me-2">{{ date("F j", strtotime($post->created_at)) }}</span>
+                                            <i class="bi bi-dot text-secondary"></i>
+                                            <span id="reading-time{{$post->id}}" class="text-secondary fs-6 me-2">{{$post->readingTime}} min read</span>
                                         @foreach($post->tags as $tag)
-                                            <!-- <a href="#" class="text-decoration-none text-black">
-                                                <span
-                                                    class="badge bg-secondary text-center px-2 rounded-pill">{{ $tag->name }}</span>
-                                            </a> -->
-
                                             <a
                                                 class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0">{{ $tag->name }}</a>
-
                                         @endforeach
                                     </div>
                                 </div>
@@ -67,7 +56,6 @@
                         </a>
                     </div>
                     <hr>
-
                 @endforeach
             </div>
             <div class="col-md-4 col-lg-4">

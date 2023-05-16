@@ -58,7 +58,8 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->status }}</td>
-                    <td>{{ Carbon::parse($user->created_at)->format('F d, Y h:i A') }}
+                    <td>
+                        {{ Carbon::parse($user->created_at)->format('F d, Y h:i A') }}
                     </td>
                     <td>
                         <form method="post"
@@ -66,15 +67,17 @@
                             style="display: inline-block;">
                             @csrf
                             <input type="hidden" name="id" value="{{ $user->id }}">
-                            <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></button>
+                            <button type="submit" class="btn" data-toggle="tooltip" title="View User"><i
+                                    class="fa fa-eye text-info"></i></button>
                         </form>
 
                         <form action="" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Are you sure you want to delete this user?')"><i
-                                    class="fa fa-trash"></i></button>
+                            <button type="submit" class="btn"
+                                onclick="return confirm('Are you sure you want to delete this user?')"
+                                data-toggle="tooltip" title="Delete User"><i
+                                    class="fa fa-trash text-danger"></i></button>
                         </form>
                     </td>
                 </tr>

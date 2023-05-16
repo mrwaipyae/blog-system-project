@@ -141,9 +141,9 @@ class PostController extends Controller
         $post->content = $request->content;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/images', $filename);
-            $post->image = $filename;
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('img'), $imageName);
+            $post->image = $imageName;
         }
         $post->tags()->sync($request->tags);
         $post->save();

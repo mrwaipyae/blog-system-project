@@ -166,3 +166,24 @@
          </div>
      </div>
  </div>
+
+ <!-- auth check Modal -->
+ <div class="modal fade" id="authCheck" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="alertModalBoxLabel">You must be logged in to response this post.</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+                 <p>Please login or register to continue.</p>
+             </div>
+             <div class="modal-footer">
+                 <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                 <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+                 <a href="{{ route('register') }}" class="btn btn-success">Register</a>
+             </div>
+         </div>
+     </div>
+ </div>

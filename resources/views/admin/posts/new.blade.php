@@ -34,7 +34,7 @@
                     @endif
                 </div>
                 <div class="form-group mb-3">
-                    <select name="tags[]" id="tags" class="form-control @error('tags') is-invalid @enderror">
+                    <select name="tags[]" id="tags" class="form-control @error('tags') is-invalid @enderror" multiple>
                         @foreach($tags as $tag)
                             <option value="{{ $tag->id }}" {{ (in_array($tag->id, old('tags', [])) || $tag->id == old('tags')) ? 'selected' : '' }}>{{ $tag->name }}</option>
                         @endforeach

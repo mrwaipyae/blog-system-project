@@ -17,10 +17,7 @@ class AdminController extends Controller
     //     $userCount = User::count();
     //     $tagCount = Tag::count();
 
-    //     $postsPerMonth = DB::table('posts')
-    //             ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
-    //             ->groupBy(DB::raw('MONTH(created_at)'))
-    //             ->get();
+       
 
 
     //     // Pass the $postsPerMonth data to the view and display it on the chart

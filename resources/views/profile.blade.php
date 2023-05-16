@@ -8,33 +8,16 @@
                 <div class="d-flex align-items-center mb-5">
                     <h1 class="fs-1 fw-bold me-2">{{ $user->name }}</h1>
                 </div>
-
                 @foreach($userPosts as $post)
                     <div class="mb-4">
                         <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
                             class="text-decoration-none text-black">
                             <div class="row">
-
-
                                 <div class="col-md-8">
                                     <p class="text-muted">
                                         {{ date("F j", strtotime($post->created_at)) }}
                                     </p>
-                                    <!-- <div class="d-flex align-items-center mb-2">
-                                        <a href="">
-                                            <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
-                                                alt="User Profile" class="rounded-circle me-2" width="30" height="30">
-                                        </a>
-                                        <a href="" class="nav-link">
-                                            <p class="m-0">{{ $post->user->name }}</p>
-                                        </a>
-
-                                    </div> -->
-
-
-
                                     <h5>{{ $post->title }}</h5>
-
                                     <p class="text-gray" id="post-content">
                                         @php
                                             $content = strip_tags($post->content);
@@ -44,7 +27,6 @@
 
                                         @endphp
                                         {!! $limitedContent . "..." !!}
-                                        <!-- {!! Str::limit(strip_tags($post->content), $limit = 150, $end = '...') !!} -->
                                     </p>
                                     <div class="row pt-2">
                                         <div class="col-md-10 d-flex align-items-center">
@@ -54,7 +36,6 @@
                                                     {{ $tag->name }}
                                                 </a>
                                             @endforeach
-                                            <span id="reading-time" class="text-secondary"></span>
                                         </div>
                                         <div class="col-md-2 dropdown dropend">
                                             <a class="" href="#" role="button" id="dropdownMenuLink"
@@ -62,7 +43,6 @@
                                                 <i class="bi bi-three-dots fs-4 text-secondary" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="More"></i>
                                             </a>
-
                                             <ul class="dropdown-menu dropdown-menu-dark"
                                                 aria-labelledby="dropdownMenuLink">
                                                 <li><a class="dropdown-item"
@@ -74,8 +54,6 @@
                                                 </li>
                                             </ul>
                                         </div>
-
-
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-center">
@@ -124,19 +102,4 @@
         </div>
     </div>
 </section>
-<script>
-    // Get the post content element
-    const postContent = document.querySelector('#post-content');
-
-    // Calculate the reading time
-    const wordsPerMinute = 200; // Change this value as desired
-    const postContentText = postContent.textContent.trim();
-    const wordCount = postContentText.split(/\s+/g).length;
-    const readingTimeMinutes = Math.ceil(wordCount / wordsPerMinute);
-
-    // Display the reading time
-    const readingTimeElement = document.querySelector('#reading-time');
-    readingTimeElement.textContent = `${readingTimeMinutes} min read`;
-
-</script>
 @endsection

@@ -31,6 +31,7 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-md-8 mx-auto">
+          <div id="alert-container"></div>
             <h2 class="mb-5">{{ $post->title }}</h2>
             <div class="d-flex align-items-center mb-3">
                 <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
@@ -42,15 +43,24 @@
                 </div>
             </div>
             <div class="d-flex align-items-center mb-5 border-top border-bottom py-2">
-                @auth
+                {{-- @auth
                     <button id="like-btn" class="btn nav-link me-5">
                         <i class="bi bi-hand-thumbs-up me-1"></i> {{ $post->likes()->count() }}
                     </button>
                 @else
-                    <a href="#" id="like-btn" class="btn nav-link me-5 " data-bs-toggle="modal"
-                        data-bs-target="#loginModal"><i
+                    <a href="" id="like-btn" class="btn nav-link me-5 " ><i
                             class="bi bi-hand-thumbs-up fs-5 me-1"></i>{{ $post->likes()->count() }}</a>
+                @endauth --}}
+                @auth
+                  <button id="like-btn" class="btn nav-link me-5">
+                  <i class="bi bi-hand-thumbs-up fs-5 me-1"></i> {{ $post->likes()->count() }}
+                  </button>
+                @else
+                  <a href="" id="like-btn" class="btn nav-link me-5 ">
+                  <i class="bi bi-hand-thumbs-up fs-5 me-1"></i>{{ $post->likes()->count() }}
+                  </a>
                 @endauth
+
 
 
 
@@ -78,11 +88,9 @@
                             </div>
                             <button type="submit" class="btn btn-dark">Submit</button>
                         </form>
-
                         <hr>
 
                         <!-- List of comments -->
-                        {{-- {{ $comment->user->profile_image_url }} --}}
                         <h6>Comments</h6>
                         <ul class="list-unstyled" id="comment-list">
                             @if($post->comments)
@@ -156,10 +164,8 @@
         } else {
           commentList.appendChild(newComment);
         }
-
         // Update the comment count
         commentCount.innerHTML = `<i class="bi bi-chat me-1"></i>${result.count}`;
-
         // Clear the comment form
         form.reset();
       })
@@ -168,29 +174,109 @@
       });
   });
   
-  document.getElementById('like-btn').addEventListener('click', function (e) {
-    e.preventDefault(); // prevent default form submission behavior
-    this.classList.toggle('liked');
-    var icon = this.querySelector('i');
-    var isLiked = this.classList.contains('liked');
-    if (isLiked) {
-      icon.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill');
-    } else {
-      icon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up');
-    }
-    // make AJAX request
-    axios.post("{{ route('post.like', $post->id) }}")
-      .then(function (response) {
-        // update like count
-        var likesCount = response.data.likes_count;
-        console.log('Number of likes: ' + likesCount);
-        document.getElementById('like-btn').innerHTML =
-          '<i class="bi ' + (isLiked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up') + ' fs-5 me-1"></i> ' + likesCount;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  });
+// document.getElementById('like-btn').addEventListener('click', function (e) {
+//   e.preventDefault(); // prevent default form submission behavior
+  
+//   // Check if the user is authenticated
+//   const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+  
+//   // If the user is not authenticated, show the alert box with login and register buttons
+//   if (!isAuthenticated) {
+//      // Show the auth check modal
+//     let loginModal = new bootstrap.Modal(document.getElementById('authCheck'), {});
+//     loginModal.show();
+//     return;
+//   }
+  
+//   // If the user is authenticated, toggle the like button
+//   this.classList.toggle('liked');
+//   var icon = this.querySelector('i');
+//   var isLiked = this.classList.contains('liked');
+//   if (isLiked) {
+//     icon.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill');
+//   } else {
+//     icon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up');
+//   }
+  
+//   // Make AJAX request
+//   axios.post("{{ route('post.like', $post->id) }}")
+//     .then(function (response) {
+//       // Update like count
+//       var likesCount = response.data.likes_count;
+//       console.log('Number of likes: ' + likesCount);
+//       document.getElementById('like-btn').innerHTML =
+//         '<i class="bi ' + (isLiked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up') + ' fs-5 me-1"></i> ' + likesCount;
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+// });
+
+
+// Check if the user is authenticated
+const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+
+// Get the like button and its icon
+const likeBtn = document.getElementById('like-btn');
+const icon = likeBtn.querySelector('i');
+
+// Check if the post has been liked before
+const postId = {{ $post->id }};
+let likedPosts = JSON.parse(localStorage.getItem('likedPosts')) || [];
+let isLiked = likedPosts.includes(postId);
+if (isLiked) {
+  likeBtn.classList.add('liked');
+  icon.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill');
+} else {
+  likeBtn.classList.remove('liked');
+  icon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up');
+}
+
+// Add event listener to the like button
+likeBtn.addEventListener('click', function (e) {
+  e.preventDefault(); // prevent default form submission behavior
+
+  // If the user is not authenticated, show the alert box with login and register buttons
+  if (!isAuthenticated) {
+    // Show the auth check modal
+    let loginModal = new bootstrap.Modal(document.getElementById('authCheck'), {});
+    loginModal.show();
+    return;
+  }
+
+  // Toggle the like button and its icon
+  this.classList.toggle('liked');
+  isLiked = this.classList.contains('liked');
+  if (isLiked) {
+    icon.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill');
+    likedPosts.push(postId);
+  } else {
+    icon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up');
+    likedPosts = likedPosts.filter(id => id !== postId);
+  }
+
+  // Store the state of the like button
+  localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
+
+  // Make AJAX request
+  axios.post("{{ route('post.like', $post->id) }}")
+    .then(function (response) {
+      // Update like count
+      var likesCount = response.data.likes_count;
+      console.log('Number of likes: ' + likesCount);
+      document.getElementById('like-btn').innerHTML =
+        '<i class="bi ' + (isLiked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up') + ' fs-5 me-1"></i> ' + likesCount;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+
+// Remove the like state from non-authenticated users
+if (!{{ Auth::check() ? 'true' : 'false' }}) {
+  localStorage.removeItem('likedPosts');
+}
+
 
   let comment = document.getElementById('content');
   console.log(comment);
@@ -198,9 +284,10 @@
     const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
     // Check if the user is authenticated
     if (!isAuthenticated) {
-      // Show the login modal
-      let loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {});
+      // Show the auth check modal
+      let loginModal = new bootstrap.Modal(document.getElementById('authCheck'), {});
       loginModal.show();
+      return;
     }
   });
 });

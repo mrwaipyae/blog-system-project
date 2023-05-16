@@ -5,14 +5,18 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 @endsection
 @section('content')
+@php
+    use Carbon\Carbon;
+    $no = 1;
+@endphp
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12 p-3">
             <!-- Tag navigation -->
             <div class="d-flex justify-content-between align-items-center mb-5">
-                <h3 class="mb-0 ">Tags</h3>
+                <h3 class="mb-0 ">Topic</h3>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addTagModal">
-                    <i class="bi bi-plus-square"></i> Add New tag
+                    <i class="bi bi-plus-square me-2"></i>New Topic
                 </button>
             </div>
             <!-- date input -->
@@ -57,31 +61,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $no = 1;
-                    @endphp
                     @isset($tags)
                         @foreach($tags as $tag)
                             <tr>
                                 <th scope="row">{{ $no++ }}</th>
                                 <td>{{ $tag->name }}</td>
-                                <td>{{ $tag->created_at }}</td>
-                                <td>{{ $tag->updated_at }}</td>
+                                <td>
+                                    {{ Carbon::parse($tag->created_at)->format('F d, Y h:i A') }}
+                                </td>
+                                <td>
+                                    {{ Carbon::parse($tag->updated_at)->format('F d, Y h:i A') }}
+                                </td>
                                 <td>
                                     <form method="post"
                                         action="{{ route('admin.tags.view', str_replace(' ', '-', strtolower($tag->name))) }}"
                                         style="display: inline-block;">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $tag->id }}">
-                                        <button type="submit" class="btn btn-info btn-sm" data-toggle="tooltip"
-                                            data-placement="top" title="View Tag"><i class="fa fa-eye"></i></button>
+                                        <button type="submit" class="btn" data-toggle="tooltip" data-placement="top"
+                                            title="View Tag"><i class="fa fa-eye text-info"></i></button>
                                     </form>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    <button type="button" class="btn" data-toggle="modal"
                                         data-target="#editTagModal{{ $tag->id }}" data-toggle="tooltip"
-                                        data-placement="top" title="Edit Tag"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                        data-placement="top" title="Edit Tag"><i
+                                            class="fa fa-edit text-primary"></i></button>
+                                    <button type="button" class="btn" data-toggle="modal"
                                         data-target="#deleteTagModal{{ $tag->id }}" data-toggle="tooltip"
-                                        data-placement="top" title="Delete Tag"><i class="fa fa-trash"></i></button>
+                                        data-placement="top" title="Delete Tag"><i
+                                            class="fa fa-trash text-danger"></i></button>
                                 </td>
                             </tr>
                             <!-- Edit Tag Modal -->

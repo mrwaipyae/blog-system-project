@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>InkSpire - A place to share knowledge</title>
+    <link rel="icon" type="image/png" href="{{ url('img/profile/pen.png') }}" />
     <link rel="stylesheet" href="{{ url('css/style.css') }}" />
     <link rel="stylesheet" href="{{ url('css/variables.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -21,42 +21,33 @@
         .search-container {
             position: relative;
         }
-
         #search-suggestions {
-
             position: absolute;
             top: 100%;
             left: 0;
             z-index: 999;
             width: 100%;
             background-color: #fff;
-
             border-radius: 0 0 0.5rem 0.5rem;
-
             margin-top: 0.5rem;
         }
-
         #search-suggestions li {
             list-style: none;
             margin: 0;
             padding: 0;
 
         }
-
         #search-suggestions li a {
             display: block;
             color: #fff;
             text-decoration: none;
             padding: 0.5rem 0;
         }
-
         #search-suggestions li a:hover {
             background-color: #eee;
         }
-
     </style>
 </head>
-
 <body>
     @include('layouts.modal')
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top px-5 py-4 mb-2 border-bottom">
@@ -95,7 +86,6 @@
                     <p class="lead mb-4">Sign up to read and write thoughtful stories and essays on topics that
                         matter
                     </p>
-
                     <div class="row">
                         <div class="col-md-4 col-lg-4">
                             <a class="btn text-white nav-link rounded-pill py-2 fs-5 bg-dark"
@@ -103,7 +93,6 @@
                                 Reading</a>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-md-5">
                     <img src="https://via.placeholder.com/600x400" class="img-fluid rounded"
@@ -113,18 +102,17 @@
         </div>
     </section>
     <!-- trending post -->
-    <section class="py-5 border-bottom">
+    <section class="py-4 border-bottom">
         <div class="container">
-            <h2 class="mb-4">Trending on InkSpire</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <h4 class="py-4"><i class="bi bi-graph-up-arrow me-3"></i>Trending on InkSpire</h4>
+            <div class="row row-cols-1 row-cols-md-3 g-3">
                 @foreach($popularPosts as $popularPost)
                     <div class="col">
-                        <div class="card">
-                            <div class="card-body">
+                            <div class="card-body" style="height: 150px;">
                                 <div class="mb-2 text-muted">
                                     <a href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($popularPost->user->name)), $popularPost->user->id]) }}"
                                         class="nav-link d-inline-block">
-                                        <img src="{{ asset('storage/profile_images/'.$popularPost->user->profile_image) }}"
+                                        <img src="{{ $popularPost->user->profile_image ? asset('storage/profile_images/'.$popularPost->user->profile_image) : 'https://example.com/default-profile-image.jpg' }}"
                                             alt="User Profile" class="rounded-circle me-2" width="30" height="30">
                                     </a>
                                     <span class="text-dark">{{ $popularPost->user->name }}</span>
@@ -135,12 +123,15 @@
                                 </div>
                                 <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($popularPost->user->name)), Str::slug($popularPost->title).'-'. $popularPost->id]) }}"
                                     class="text-decoration-none text-black">
-                                    <h5 class="card-title mb-3">{{ $popularPost->title }}</h5>
+                                    <p class="card-title mb-2 fw-bold">{{ $popularPost->title }}</p>
                                 </a>
-                                <div class="mb-2"><small class="text-muted">May 4</small></div>
+                                <div class="">
+                                    <small class="text-muted">{{ date("F j", strtotime($popularPost->created_at)) }}</small>
+                                    <i class="bi bi-dot text-secondary"></i>
+                                    <small class="text-muted fs-6 me-2">{{$popularPost->readingTime}} min read</small>
+                                </div>
 
                             </div>
-                        </div>
                     </div>
                 @endforeach
             </div>
@@ -152,13 +143,13 @@
             <div class="row">
                 <div class="col-md-8 col-lg-8 overflow-auto">
                     @foreach($posts as $post)
-                        <div class="mb-4">
+                        <div class="mb-4 pt-2">
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="d-flex align-items-center mb-2">
                                         <a
                                             href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}">
-                                            <img src="{{ asset('storage/profile_images/'.$post->user->profile_image) }}"
+                                            <img src="{{ $post->user->profile_image ? asset('storage/profile_images/'.$post->user->profile_image) : 'https://example.com/default-profile-image.jpg' }}"
                                                 alt="User Profile" class="rounded-circle me-2" width="30" height="30">
                                         </a>
                                         <a href="{{ route('user.posts',[ '@'.str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}"
@@ -169,8 +160,7 @@
                                     <a href="{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
                                         class="text-decoration-none text-black">
                                         <h5>{{ $post->title }}</h5>
-
-                                        <p class="text-gray">
+                                        <p class="text-gray" id="post-content{{$post->id}}">
                                             @php
                                                 $content = strip_tags($post->content);
                                                 $words = str_word_count($content, 1);
@@ -181,9 +171,11 @@
                                         </p>
                                     </a>
                                     <div class="d-flex align-items-center">
-                                        <span class="text-muted me-2">
+                                        <span class="text-muted me-1 fs-6">
                                             {{ date("F j", strtotime($post->created_at)) }}
                                         </span>
+                                        <i class="bi bi-dot text-secondary"></i>
+                                        <span id="reading-time{{$post->id}}" class="text-secondary fs-6 me-2">{{$post->readingTime}} min read</span>
                                         @foreach($post->tags as $tag)
                                             <a class="btn btn-secondary text-white btn-sm rounded-pill px-2 py-0 mx-1"
                                                 href="{{ route('tag.show',$tag->name) }}">
@@ -199,13 +191,11 @@
                                             <img src="{{ asset('img/' . $post->image) }}"
                                                 alt="{{ $post->title }}" class="img-fluid" style="width:90%;">
                                         </a>
-
                                     @endif
                                 </div>
                             </div>
                         </div>
                         <hr>
-
                     @endforeach
                 </div>
                 <!--navigation section-->
@@ -214,11 +204,12 @@
                         class="sticky-top {{ (Auth::check())?'top-0':'top-30' }}">
                         <h5 class="mb-3">Discover more of what matters to you</h5>
                         <div class="row mb-3">
-                            @foreach(App\Models\Tag::all() as $tag)
-                                <div class="col-sm-4 col-md-3 col-lg-2 mx-4">
-                                    <a class="btn btn-light btn-sm mb-2 rounded-pill px-2"
-                                        href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
-                                </div>
+                            @foreach(App\Models\Tag::inRandomOrder()->limit(10)->get() as $tag)
+                              <div class="col-sm-4 col-md-3 col-lg-2 mx-4">
+                                <a class="btn btn-light btn-sm mb-2 rounded-pill px-2" href="{{ route('tag.show', $tag->name) }}">
+                                  {{ $tag->name }}
+                                </a>
+                              </div>
                             @endforeach
                         </div>
                         <div>
@@ -234,7 +225,6 @@
                                 @endforeach
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>

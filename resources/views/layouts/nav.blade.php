@@ -24,12 +24,20 @@
                     <li class="nav-item dropdown">
                         <a href="" class="nav-link btn dropdown-toggle pb-1" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <img src="{{ asset('storage/profile_images/'.Auth::user()->profile_image) }}"
-                                alt="User Profile" class="rounded-circle" width="35" height="35">
+                            @if(Auth::user()->profile_image)
+                                <img src="{{ asset('storage/profile_images/'.Auth::user()->profile_image) }}"
+                                    alt="User Profile" class="rounded-circle" width="35" height="35">
+                            @else
+                                {{ Auth::user()->name; }}
+                            @endif
+
+                            <!-- <img src="{{ asset('storage/profile_images/'.Auth::user()->profile_image) }}"
+                                alt="User Profile" class="rounded-circle" width="35" height="35"> -->
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" style="left:-100px; top: 50px">
                             <li>
-                                <a class="dropdown-item btn" href="">Profile</a>
+                                <a href="{{ route('profile.me') }}" class="dropdown-item btn"
+                                    href="">Profile</a>
                             </li>
                             <li>
                                 <a class="dropdown-item btn" data-bs-toggle="modal"
@@ -50,12 +58,13 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <form class="d-flex" role="search">
-                <div class="">
-                    <input class="form-control me-2 rounded-pill" type="search" placeholder="Search"
-                        aria-label="Search">
-                </div>
-            </form>
+            <div class="position-relative search-container">
+                <form method="GET" action="{{ route('search') }}">
+                    <input type="text" class="form-control me-2 rounded-pill" name="query" id="search-input"
+                        placeholder="Search..." value="{{ request('query') }}">
+                </form>
+                <ul class="list-group position-absolute" id="search-suggestions"></ul>
+            </div>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
@@ -66,7 +75,7 @@
                     </li>
                     <li class="nav-item ">
                         <a class="btn btn-success rounded-pill py-1" data-bs-toggle="modal"
-                            data-bs-target="#loginModal">Sign
+                            data-bs-target="#registerModal">Sign
                             up</a>
                     </li>
                     <li class="nav-item">

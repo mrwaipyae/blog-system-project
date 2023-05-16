@@ -53,9 +53,7 @@
 
                         $.each(data.posts, function (index, post) {
                             suggestions +=
-                                '<li><a href="' +
-                                "{{ route('post.view', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}" +
-                                '">' + post
+                                '<li><a href="">' + post
                                 .title +
                                 '</a></li>';
                         });

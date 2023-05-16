@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InkSpire - @yield('page_title')</title>
+    <link rel="icon" type="image/png" href="{{ url('img/profile/pen.png') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ URL::asset('css/admin/style.css') }}" />
@@ -38,9 +39,12 @@
                             class="bi bi-key me-1"></i>User Management</a>
                     <a href="{{ route('admin.tags') }}"
                         class="{{ Request::is('admin/tags*') ? 'selected' : '' }}"><i
-                            class="bi bi-brush me-1"></i>Tag management</a>
-                    <a href="{{ route('logout') }}"><i
-                            class="bi bi-box-arrow-right me-1"></i>Logout</a>
+                            class="bi bi-brush me-1"></i>Topic management</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#logoutModal">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        Logout
+                    </a>
                 </nav>
             </div>
 

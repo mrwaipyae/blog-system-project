@@ -28,7 +28,7 @@
         <div class="row mt-4">
             <div class="">
                 <a href="{{ route('admin.posts.new') }}" class="btn btn-success">
-                    <i class="bi bi-plus-square"></i> Add New Post
+                    <i class="bi bi-plus-square me-2"></i>New Post
                 </a>
             </div>
         </div>
@@ -37,6 +37,7 @@
 
 <!-- Post table -->
 @php
+    use Carbon\Carbon;
     $no = 1;
 @endphp
 <table class="row mb-2">
@@ -81,7 +82,7 @@
             <th scope="col">User</th>
             <th scope="col">Tags</th>
             <th>Date</th>
-            <th scope="col">Actions</th>
+            <th scope="col" class="col-lg-3">Actions</th>
 
         </tr>
     </thead>
@@ -99,19 +100,21 @@
                         @endif
                     @endforeach
                 </td>
-                <td>{{ $post->created_at }}</td>
+                <td>
+                    {{ Carbon::parse($post->created_at)->format('F d, Y h:i A') }}
+                </td>
                 <td>
                     <a href="{{ route('admin.post.show', ['@'.str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title).'-'. $post->id]) }}"
-                        class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="View"><i
-                            class="fa fa-eye"></i></a>
-                    <a href="{{ route('admin.posts.edit',$post->id) }}"
-                        class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><i
-                            class="fa fa-edit"></i> </a>
+                        class="btn" data-toggle="tooltip" data-placement="top" title="View"><i
+                            class="fa fa-eye text-info"></i></a>
+                    <a href="{{ route('admin.posts.edit',$post->id) }}" class="btn"
+                        data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit text-warning"></i>
+                    </a>
 
-                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                    <button type="button" class="btn" data-toggle="modal"
                         data-target="#deletePostModal{{ $post->id }}" data-toggle="tooltip" data-placement="top"
                         title="Delete">
-                        <i class="fa fa-trash"></i>
+                        <i class="fa fa-trash text-danger"></i>
                     </button>
                     <button type="button"
                         class="btn {{ (!$post->deleted_at)?'btn-secondary':'btn-success' }} btn-sm"

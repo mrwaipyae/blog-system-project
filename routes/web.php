@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
     Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->name('post.like');
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::get('/me',[UserProfileController::class,'index']);
+    Route::get('/me',[UserProfileController::class,'index'])->name('profile.me');
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{id}', [PostController::class, 'update'])->name('post.update');
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('post.destroy');
