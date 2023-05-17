@@ -34,7 +34,7 @@
                             <!-- <img src="{{ asset('storage/profile_images/'.Auth::user()->profile_image) }}"
                                 alt="User Profile" class="rounded-circle" width="35" height="35"> -->
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" style="left:-100px; top: 50px">
+                        <!-- <ul class="dropdown-menu dropdown-menu-dark" style="left:-100px; top: 50px">
                             <li>
                                 <a href="{{ route('profile.me') }}" class="dropdown-item btn"
                                     href="">Profile</a>
@@ -43,7 +43,19 @@
                                 <a class="dropdown-item btn" data-bs-toggle="modal"
                                     data-bs-target="#logoutModal">Logout</a>
                             </li>
-
+                        </ul> -->
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" style="left:-100px; top: 50px">
+                            <li>
+                                <a class="dropdown-item dpdetail" href="{{ route('profile.me') }}">
+                                    <i class="fa-solid fa-gear"></i>Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn dropdown-item dpdetail" data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal">
+                                    <i class="fa-solid fa-right-from-bracket"></i>Logout
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

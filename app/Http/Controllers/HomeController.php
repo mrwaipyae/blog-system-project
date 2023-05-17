@@ -33,8 +33,7 @@ class HomeController extends Controller
 
         $recentPosts = Post::latest()->take(6)->get();
 
-
-      function calculateReadingTime($posts){
+        function calculateReadingTime($posts){
                 foreach ($posts as $post) {
                 $wordCount = str_word_count(strip_tags($post->content));
                 $readingTimeMinutes = ceil($wordCount / 200); // Assuming an average reading speed of 200 words per minute
@@ -60,7 +59,8 @@ class HomeController extends Controller
         }
     }
 
-    function about(){
+    function about()
+    {
         return view('about');
     }
 }

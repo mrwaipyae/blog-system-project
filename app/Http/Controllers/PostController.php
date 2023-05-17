@@ -49,9 +49,8 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'content' => 'required',
-            'image' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'tags' => 'required|array',  
         ]);
 
         // upload image
@@ -74,8 +73,7 @@ class PostController extends Controller
 
 
         Session::flash('message', 'Post Create Successfully.');
-
-        return redirect('/');
+        return redirect('/me');
     }
 
      // Upload CkEditor file
@@ -125,19 +123,18 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $tags = Tag::all();
-        return view('post.edit', ['post' => $post, 'tags' => $tags]);
+        $postTagIds = $post->tags->pluck('id')->toArray();
+        return view('post.edit', compact('post', 'tags', 'postTagIds'));
     }
 
     public function update(Request $request, $id)
     {
-     
         $post = Post::findOrFail($id);
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'tags' => 'nullable|array',
-            'tags.*' => 'nullable|exists:tags,id',
+            'title' => 'required',
+            'content' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'tags' => 'required|array',  
         ]);
         $post->title = $request->title;
         $post->content = $request->content;

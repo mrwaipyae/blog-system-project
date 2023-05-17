@@ -18,7 +18,7 @@ class UserController extends Controller
         }
 
         // Calculate total likes received by the user
-        $totalLikes = $user->posts->sum('likes_count');
+        $totalLikes = $user->likes->count();
 
         $totalPosts = $user->posts()->count();
         return view('user.posts', compact('user', 'totalPosts', 'posts','totalLikes'));

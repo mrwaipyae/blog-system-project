@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
     Route::put('/comment/{id}/edit', [CommentController::class, 'edit'])->name('comment.edit');
+    Route::post('/profile/update',[UserProfileController::class,'update'])->name('profile.update');
     
 });
 

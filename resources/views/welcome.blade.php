@@ -201,7 +201,7 @@
                                         <a
                                             href="{{ route('post.view', ['@' . str_replace(' ', '', strtolower($post->user->name)), Str::slug($post->title) . '-' . $post->id]) }}">
                                             <img src="{{ asset('img/' . $post->image) }}" alt="{{ $post->title }}"
-                                                class="img-fluid" style="width:90%;">
+                                                class="img-fluid" style="width:80%; height:70%">
                                         </a>
                                     @endif
                                 </div>

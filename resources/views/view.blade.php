@@ -48,7 +48,6 @@
                         <img src="{{ asset('storage/profile_images/' . $post->user->profile_image) }}" alt="User Profile"
                             class="rounded-circle me-3" width="40" height="40">
                     </a>
-
                     <div>
                         <a href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}"
                             class="nav-link">
@@ -59,7 +58,8 @@
                         </small>
                         <i class="bi bi-dot text-secondary"></i>
                         <small id="reading-time{{ $post->id }}"
-                            class="text-secondary fs-6 me-2">{{ $post->readingTime }} min read</small>
+                            class="text-secondary fs-6 me-2">{{ $post->readingTime }}
+                            min read</small>
                     </div>
                 </div>
                 <div class="d-flex align-items-center mb-5 border-top border-bottom py-2">
@@ -74,14 +74,11 @@
                             <i class="bi bi-hand-thumbs-up fs-5 me-1"></i>{{ $post->likes()->count() }}
                         </a>
                     @endauth
-
                     <!-- Button trigger offcanvas -->
                     <button id="comment" class="btn nav-link ms-3" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                         <i class="bi bi-chat me-1"></i>{{ $post->comments()->count() }}
                     </button>
-
-
                     <!-- Offcanvas -->
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
                         aria-labelledby="offcanvasRightLabel">
@@ -102,7 +99,6 @@
                                 <button type="submit" class="btn btn-dark">Submit</button>
                             </form>
                             <hr>
-
                             <!-- List of comments -->
                             <h6>Comments</h6>
                             <ul class="list-unstyled" id="comment-list">
@@ -132,23 +128,27 @@
                                                             aria-haspopup="true" aria-expanded="false">
                                                             <i class="bi bi-three-dots fs-4 text-secondary"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="More"></i>
+                                                                title="More">
+                                                            </i>
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-secondary"
                                                             aria-labelledby="dropdownMenuLink">
                                                             <li><a class="dropdown-item" href=""
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#editCommentModal{{ $comment->id }}">Edit
-                                                                    Comment</a></li>
-                                                            <li><a class="dropdown-item" href="#"
+                                                                    Comment
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#deleteCommentModal{{ $comment->id }}">Delete
-                                                                    Post</a>
+                                                                    Post
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 @endif
-
                                             </div>
                                         </li>
                                         <div id="modal-container"></div>
@@ -265,14 +265,7 @@
                 const data = new FormData(form);
                 axios.post("{{ route('comments.store', $post->id) }}", data)
                     .then(function(response) {
-
-
                         const result = response.data.result;
-                        console.log(result);
-                        //////////////////////////////////////////////////
-
-
-
                         // Create a new comment element
                         const newComment = document.createElement('li');
                         newComment.classList.add('media', 'my-4', 'border-bottom', 'pb-2');
@@ -326,8 +319,6 @@
                     });
             });
 
-
-
             // Check if the user is authenticated
             const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
             // Get the like button and its icon
@@ -344,14 +335,11 @@
                     loginModal.show();
                     return;
                 }
-
                 // Toggle the like button and its icon
                 this.classList.toggle('liked');
-
                 // var isLiked = {!! $post->isLikedByCurrentUser() ? 'true' : 'false' !!};
                 // console.log(isLiked)
                 var isLiked = icon.classList.contains('bi-hand-thumbs-up-fill');
-
                 if (isLiked) {
                     // likeBtn.classList.add('liked');
                     icon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up');
@@ -360,7 +348,6 @@
                     // likeBtn.classList.remove('liked');
                     icon.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill');
                 }
-
                 // Make AJAX request
                 axios.post("{{ route('post.like', $post->id) }}")
                     .then(function(response) {
@@ -371,13 +358,11 @@
                         document.getElementById('like-btn').innerHTML =
                             '<i class="bi ' + (!isLiked ? 'bi-hand-thumbs-up-fill' :
                                 'bi-hand-thumbs-up') + ' fs-5 me-1"></i> ' + likesCount;
-
                     })
                     .catch(function(error) {
                         console.log(error);
                     });
             });
-
             let comment = document.getElementById('content');
             console.log(comment);
             comment.addEventListener('focus', function() {
