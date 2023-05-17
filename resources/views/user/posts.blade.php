@@ -49,14 +49,14 @@
                     @endforeach
                 </div>
                 <div class="col-md-4 col-lg-4 ps-4">
-                    <div class="py-4 ps-3">
+                    <div class="py-4 ps-3 text-center border-bottom">
                         <a href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($user->name)), $user->id]) }}"
                             class="nav-link d-inline">
                             <img src="{{ asset('storage/profile_images/' . $user->profile_image) }}" alt="User Profile"
                                 class="rounded-circle me-2" width="90" height="90">
                         </a>
-                        <p class="fw-medium fs-4 py-3 ps-3">{{ $user->name }}</p>
-                        <div class="row d-flex align-items-center text-center border-bottom ms-3 py-5">
+                        <p class="fw-medium fs-4 py-3">{{ $user->name }}</p>
+                        <div class="row d-flex align-items-center text-center ms-3 py-1">
                             <div class="col-md-6">
                                 <p class="fw-medium fs-5">{{ $totalPosts }}</p>
                                 <h5>Total Posts</h5>

@@ -166,6 +166,11 @@
                                 <label for="name" class="form-label">Name</label>
                                 <input id="name" type="text" class="form-control" name="name"
                                     value="{{ $user->name }}">
+                                @if ($errors->has('name') && $errors->first('name') == 'The name field is required.')
+                                    <div class="invalid-feedback d-block">{{ $errors->first('name') }}</div>
+                                @elseif ($errors->has('name'))
+                                    <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                                @endif
                             </div>
 
                             <!-- Email -->
@@ -173,6 +178,11 @@
                                 <label for="email" class="form-label">Email</label>
                                 <input id="email" type="email" class="form-control" name="email"
                                     value="{{ $user->email }}">
+                                @if ($errors->has('email') && $errors->first('email') == 'The email field is required.')
+                                    <div class="invalid-feedback d-block">{{ $errors->first('email') }}</div>
+                                @elseif ($errors->has('email'))
+                                    <div class="invalid-feedback">{{ $errors->first('email') }}</div>
+                                @endif
                             </div>
 
                             <div class="modal-footer">

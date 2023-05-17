@@ -63,18 +63,13 @@
                     <div class="sticky-top {{ Auth::check() ? 'top-0' : 'top-30' }}">
                         <!-- trending post -->
                         <div class="py-3">
-                            <h5 class="text-muted py-1">Trending Posts</h5>
+                            <h5 class="text-muted py-1"><i class="bi bi-graph-up-arrow fs-5 me-3"></i>Trending Posts</h5>
                             <ul class="list-unstyled">
                                 @foreach ($popularPosts as $popularPost)
                                     <li class="mb-2 py-2">
-
-                                        <span class="text-dark me-3">{{ $popularPost->user->name }}</span>
                                         <img src="{{ asset('storage/profile_images/' . $popularPost->user->profile_image) }}"
                                             alt="User Profile" class="rounded-circle me-2" width="20" height="20">
-                                        {{-- @foreach ($popularPost->tags as $tag)
-                                            <small class="text-dark">{{ $tag->name }}</small>
-                                        @endforeach --}}
-
+                                        <span class="text-dark me-3">{{ $popularPost->user->name }}</span>
                                         <a href="" class="text-dark text-decoration-none">
                                             <p class="fs-6 fw-medium py-0 my-0">{{ $popularPost->title }}</p>
                                         </a>
@@ -97,7 +92,7 @@
                         </div>
                         <!-- Recent post -->
                         <div class="border-top py-3">
-                            <h5 class="text-muted pt-3">Recent Posts</h5>
+                            <h5 class="text-muted pt-3"><i class="bi bi-clock-history me-2 fs-5"></i>Recent Posts</h5>
                             <ul class="list-unstyled">
                                 @foreach ($recentPosts as $recentPost)
                                     <li class="mb-1 py-2">
