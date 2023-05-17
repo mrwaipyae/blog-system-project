@@ -4,7 +4,7 @@
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 ckfinder: {
-                    uploadUrl: "{{ route('uploadFile').'?_token='.csrf_token() }}",
+                    uploadUrl: "{{ route('user.uploadFile').'?_token='.csrf_token() }}",
                 }
             })
             .then(editor => {

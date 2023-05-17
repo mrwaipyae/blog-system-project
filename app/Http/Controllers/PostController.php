@@ -25,13 +25,15 @@ class PostController extends Controller
     {
         // Extract the post ID from the end of the $titleAndId string
         $id = (int) Str::afterLast($titleAndId, '-');
-
         // Extract the title from the $titleAndId string
         $title = Str::beforeLast($titleAndId, '-');
-        // $post = Post::findOrFail($id);
         $post = Post::with('commentsWithUser')->find($id);
-
-
+        // Calculate reading time for each post
+        $wordCount = str_word_count(strip_tags($post->content));
+        // Assuming an average reading speed of 200 words per minute
+        $readingTimeMinutes = ceil($wordCount / 200); 
+        $post->readingTime = $readingTimeMinutes;
+        
         return view('/view', compact('post'));
     }
 

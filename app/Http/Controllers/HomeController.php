@@ -32,24 +32,35 @@ class HomeController extends Controller
             ->get();
 
         $recentPosts = Post::latest()->take(6)->get();
-         // Calculate reading time for each post
-        foreach ($posts as $post) {
-            $wordCount = str_word_count(strip_tags($post->content));
-            $readingTimeMinutes = ceil($wordCount / 200); // Assuming an average reading speed of 200 words per minute
-            $post->readingTime = $readingTimeMinutes;
+
+
+      function calculateReadingTime($posts){
+                foreach ($posts as $post) {
+                $wordCount = str_word_count(strip_tags($post->content));
+                $readingTimeMinutes = ceil($wordCount / 200); // Assuming an average reading speed of 200 words per minute
+                $post->readingTime = $readingTimeMinutes;
+            }
+
         }
 
-         // Calculate reading time for each post
-         foreach ($popularPosts as $popularPost) {
-            $wordCount = str_word_count(strip_tags($popularPost->content));
-            $readingTimeMinutes = ceil($wordCount / 200); // Assuming an average reading speed of 200 words per minute
-            $popularPost->readingTime = $readingTimeMinutes;
-        }
+        // Calculate reading time for $posts
+        calculateReadingTime($posts);
+
+        // Calculate reading time for $popularPosts
+        calculateReadingTime($popularPosts);
+
+        // Calculate reading time for $morePopularPosts
+        calculateReadingTime($recentPosts);
+
 
         if (Auth::check()) {
             return view('home', ['posts' => $posts, 'popularPosts' => $popularPosts, 'recentPosts' => $recentPosts]);
         } else {
             return view('welcome', ['posts' => $posts, 'popularPosts' => $popularPosts, 'recentPosts' => $recentPosts]);
         }
+    }
+
+    function about(){
+        return view('about');
     }
 }

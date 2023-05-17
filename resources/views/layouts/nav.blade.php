@@ -68,18 +68,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#authCheckWrite">
                             <i class="bi bi-pencil-square"></i>
                             Write
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="btn btn-success rounded-pill py-1" data-bs-toggle="modal"
-                            data-bs-target="#registerModal">Sign
+                        <a href="{{ route('register') }}"
+                            class="btn btn-success rounded-pill py-1">Sign
                             up</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
+                        <a href="{{ route('login') }}" class="nav-link btn">Sign In</a>
                     </li>
                 </ul>
             </div>

@@ -9,13 +9,34 @@ use App\Models\Like;
 
 class PostLikeController extends Controller
 {
-    public function store(Post $post)
-    {
-        $post->likes()->create([
-            'user_id' => auth()->id(),
-        ]);
+    // public function store(Post $post)
+    // {
+    //     $post->likes()->create([
+    //         'user_id' => auth()->id(),
+    //     ]);
 
-        return back();
+    //     return back();
+    // }
+
+    public function store(Request $request, Post $post)
+    {
+        $user = Auth::user();
+
+        // Check if the user has already liked the post
+        $like = Like::where('user_id', $user->id)->where('post_id', $post->id)->first();
+
+        if ($like) {
+            // Unlike the post
+            $like->delete();
+        } else {
+            // Like the post
+            $like = new Like(['user_id' => $user->id, 'post_id' => $post->id]);
+            $like->save();
+        }
+
+        // Return the updated like count
+        $likesCount = $post->likes()->count();
+        return response()->json(['likes_count' => $likesCount]);
     }
 
     // public function likePost(Request $request, $id)

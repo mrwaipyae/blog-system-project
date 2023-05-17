@@ -35,7 +35,10 @@
                             route = route.replace(':username', '@' +
                                 username);
                             route = route.replace(':id', user.id);
-                            suggestions += '<li><a href="' + route + '">' +
+                            suggestions +=
+                                '<li class="bg-light"><a href="' +
+                                route +
+                                '">' +
                                 user.name + '</a></li>';
                         });
 
@@ -45,7 +48,10 @@
                             var route =
                                 "{{ route('tag.show', ':name') }}";
                             route = route.replace(':name', tagName);
-                            suggestions += '<li><a href="' + route + '">' +
+                            suggestions +=
+                                '<li class="bg-light"><a href="' +
+                                route +
+                                '">' +
                                 tagName + '</a></li>';
                         });
 
@@ -53,7 +59,8 @@
 
                         $.each(data.posts, function (index, post) {
                             suggestions +=
-                                '<li><a href="">' + post
+                                '<li class="bg-light"><a href="">' +
+                                post
                                 .title +
                                 '</a></li>';
                         });

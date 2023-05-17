@@ -66,17 +66,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 
 
 Route::middleware(['auth'])->group(function () {
+    
     Route::get('/new',[PostController::class,'new'])->name('post.new');
     Route::post('/create-post', [PostController::class, 'create'])->name('post.create');
-    Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->name('post.like');
+    Route::post('/posts/uploadFile', [PostController::class, 'uploadFile'])->name('user.uploadFile');
+    Route::post('/post/{post}/like', [PostLikeController::class, 'store'])->name('post.like');
+    // Route::post('/{post}/like', [PostLikeController::class, 'likePost'])->name('post.like');
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::get('/me',[UserProfileController::class,'index'])->name('profile.me');
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{id}', [PostController::class, 'update'])->name('post.update');
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+    Route::put('/comment/{id}/edit', [CommentController::class, 'edit'])->name('comment.edit');
+    
 });
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/about',[HomeController::class,'about'])->name('about');
 Route::get('/tag/{tag}', [TagController::class,'showPosts'])->name('tag.show');
 Route::get('/{user}-{id}',[UserController::class,'showPosts'])->name('user.posts');
 Route::get('/{user}/{titleAndId}', [PostController::class, 'view'])->name('post.view');

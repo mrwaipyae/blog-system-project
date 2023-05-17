@@ -16,7 +16,11 @@ class UserController extends Controller
             $readingTimeMinutes = ceil($wordCount / 200); // Assuming an average reading speed of 200 words per minute
             $post->readingTime = $readingTimeMinutes;
         }
+
+        // Calculate total likes received by the user
+        $totalLikes = $user->posts->sum('likes_count');
+
         $totalPosts = $user->posts()->count();
-        return view('user.posts', compact('user', 'totalPosts', 'posts',));
+        return view('user.posts', compact('user', 'totalPosts', 'posts','totalLikes'));
     }
 }
