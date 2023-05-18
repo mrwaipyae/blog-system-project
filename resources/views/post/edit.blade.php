@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="form-group text-center">
-                        <a href="{{ route('admin.posts') }}" class="btn btn-secondary btn-lg px-3">Back to
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary btn-lg px-3">Back to
                             post</a>
                         <button type="submit" class="btn btn-primary btn-lg px-3">Save and publish</button>
                     </div>

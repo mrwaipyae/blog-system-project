@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -61,6 +62,12 @@ class HomeController extends Controller
 
     function about()
     {
-        return view('about');
+        $users = User::withCount('posts')
+        ->withCount('likes')
+        ->orderByDesc('posts_count')
+        ->orderByDesc('likes_count')
+        ->limit(4)
+        ->get();
+        return view('about',compact('users'));
     }
 }

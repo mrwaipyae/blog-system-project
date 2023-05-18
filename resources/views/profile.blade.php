@@ -12,7 +12,7 @@
                         </div>
                     @endif
                     <!-- Alert message (end) -->
-                    <div class="d-flex align-items-center mb-5">
+                    <div class="d-flex align-items-center mb-5 border-bottom">
                         <h1 class="fs-1 fw-bold me-2">{{ $user->name }}</h1>
                     </div>
                     @foreach ($posts as $post)

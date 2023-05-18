@@ -35,8 +35,9 @@
                         class="{{ Request::is('admin/posts*') ? 'selected' : '' }}"><i
                             class="bi bi-clipboard-check me-1"></i>Post Management</a>
                     <a href="{{ route('admin.users') }}"
-                        class="{{ Request::is('admin/users*') ? 'selected' : '' }}"><i
-                            class="bi bi-key me-1"></i>User Management</a>
+                        class="{{ Request::is('admin/users*') ? 'selected' : '' }}">
+                        <i class="bi bi-person-lines-fill me-1"></i>User Management
+                    </a>
                     <a href="{{ route('admin.tags') }}"
                         class="{{ Request::is('admin/tags*') ? 'selected' : '' }}"><i
                             class="bi bi-brush me-1"></i>Topic management</a>
@@ -76,7 +77,6 @@
                                             <a class="btn dropdown-item text-white dpdetail" data-toggle="modal"
                                                 data-target="#logoutModal">
                                                 <i class="fa-solid fa-right-from-bracket"></i>
-
                                                 Logout
                                             </a>
                                         </li>

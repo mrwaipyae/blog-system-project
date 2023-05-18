@@ -109,8 +109,8 @@ class AdminPostController extends Controller
             'title' => 'required',
             'content' => 'required',
             'tags' => 'required|array',
-            'image' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'tags' => 'required|array',  
         ]);
         // upload image
         $imageName = '';
@@ -139,7 +139,8 @@ class AdminPostController extends Controller
     {
         $post = Post::withTrashed()->findOrFail($id);
         $tags = Tag::all();
-        return view('admin.posts.edit', ['post' => $post, 'tags' => $tags]);
+        $postTagIds = $post->tags->pluck('id')->toArray();
+        return view('admin.posts.edit', compact('post', 'tags', 'postTagIds'));
     }
 
     public function update(Request $request, $id)
@@ -154,12 +155,6 @@ class AdminPostController extends Controller
         ]);
         $post->title = $request->title;
         $post->content = $request->content;
-        // if ($request->hasFile('image')) {
-        //     $image = $request->file('image');
-        //     $filename = time() . '.' . $image->getClientOriginalExtension();
-        //     $image->storeAs('public/images', $filename);
-        //     $post->image = $filename;
-        // }
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();

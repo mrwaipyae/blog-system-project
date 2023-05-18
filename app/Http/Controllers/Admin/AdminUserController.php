@@ -20,5 +20,12 @@ class AdminUserController extends Controller
         $totalPosts = $user->posts()->count();
         return view('admin/users/view', compact('user', 'totalPosts', 'userPosts',));
     }
+
+    public function destroy($id){
+        $user = User::find($id);
+        $user->delete();
+        
+        return redirect()->back();
+    }
 }
     

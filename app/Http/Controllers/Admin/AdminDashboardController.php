@@ -15,16 +15,18 @@ class AdminDashboardController extends Controller
         $postCount = Post::count();
         $userCount = User::count();
         $tagCount = Tag::count();
+        $topUsers = User::withCount('posts')
+                    ->withCount('likes')
+                    ->orderByDesc('posts_count')
+                    ->orderByDesc('likes_count')
+                    ->limit(5)
+                    ->get();
+        
         $posts = Post::withTrashed()
             ->select(DB::raw('DATE(created_at) as date'), DB::raw('CAST(count(*) AS UNSIGNED) as total'))
             ->groupBy(DB::raw('DATE(created_at)'))
             ->get();
-        // $posts= DB::table('posts')
-        //         ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
-        //         ->groupBy(DB::raw('MONTH(created_at)'))
-        //         ->get();
-        return view('admin.dashboard', ['posts'=>$posts,'postCount' => $postCount,
-        'userCount' => $userCount,
-        'tagCount' => $tagCount]);
+        return view('admin.dashboard', compact('posts', 'postCount', 'userCount', 'tagCount','topUsers'));
+
     }
 }

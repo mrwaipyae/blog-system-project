@@ -120,13 +120,13 @@
                             <h1>The Inspire blog</h1>
                             <p>Visit our company blog for the latest news, product updates, and tips and tricks.</p>
                         </div>
-                        <a href="#" class="btn btn-outline-success">Read Our Blog</a>
+                        <a href="{{ route('about') }}" class="btn btn-outline-success">Read Our Blog</a>
                     </div>
                     <div class="col-md-12 py-5 ps-4">
                         <div class="pb-5">
                             <h1>Read, write, and expand your world.</h1>
                         </div>
-                        <a href="#" class="btn btn-outline-success">Get Started</a>
+                        <a href="{{ route('register') }}" class="btn btn-outline-success">Get Started</a>
                     </div>
                 </div>
             </div>

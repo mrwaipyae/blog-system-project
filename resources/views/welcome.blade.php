@@ -9,6 +9,9 @@
     <link rel="icon" type="image/png" href="{{ url('img/profile/pen.png') }}" />
     <link rel="stylesheet" href="{{ url('css/style.css') }}" />
     <link rel="stylesheet" href="{{ url('css/variables.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -76,7 +79,7 @@
                         <a class="nav-link" href="#">Write</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
+                        <a class="nav-link btn" href="{{ route('login') }}">Sign In</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('register') }}" class="btn text-white nav-link rounded-pill px-3 bg-dark">Get
@@ -183,7 +186,7 @@
                                     </a>
                                     <div class="d-flex align-items-center">
                                         <span class="text-muted me-1 fs-6">
-                                            {{ date('F j', strtotime($post->created_at)) }}
+                                            {{ $post->created_at->diffForHumans() }}
                                         </span>
                                         <i class="bi bi-dot text-secondary"></i>
                                         <span id="reading-time{{ $post->id }}"

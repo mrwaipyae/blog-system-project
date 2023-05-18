@@ -8,12 +8,11 @@
 @section('page_title','admin')
 @section('content')
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Library</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Data</li>
-    </ol>
-</nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#" class="fw-bold">Admin</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><span class="fw-bold">Posts<span></li>
+        </ol>
+    </nav>
 <!-- Post navigation -->
 <div class="container mb-4 mt-1 p-3">
     <!-- Alert message (start) -->
@@ -23,17 +22,14 @@
         </div>
     @endif
     <!-- Alert message (end) -->
-    <div class="d-flex justify-content-between align-items-center mb-1">
-        <h2 class="col-md-6">Posts</h2>
-        <div class="row mt-4">
+        <div class="row mt-3 mb-4">
             <div class="">
                 <a href="{{ route('admin.posts.new') }}" class="btn btn-success">
                     <i class="bi bi-plus-square me-2"></i>New Post
                 </a>
             </div>
         </div>
-    </div>
-</div>
+
 
 <!-- Post table -->
 @php
@@ -68,12 +64,7 @@
 
     </div>
 </table>
-<!-- <table class="mb-2">
-    <label>From:</label>
-    <input type="date" id="from_date">
-    <label style="margin-left:20px;">To:</label>
-    <input type="date" id="to_date">
-</table> -->
+
 <table class="table table-bordered table-striped" id="myTable">
     <thead>
         <tr>
@@ -223,13 +214,13 @@
                             Are you sure you want to delete this Post?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <form action="{{ route('admin.posts.destroy', $post->id) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -271,6 +262,7 @@
         @endforeach
     </tbody>
 </table>
+</div>
 @endsection
 @section('script')
 <!-- Datepicker -->
@@ -354,117 +346,5 @@
             });
 
         });
-
-    // if ($.fn.DataTable.isDataTable('#myTable')) {
-    //     $('#myTable').DataTable().destroy();
-    // }
-    // // Fetch records
-    // function fetch(start_date, end_date) {
-    //     $.ajax({
-    //         url: "{{ route('posts.records') }}",
-    //         type: "GEt",
-    //         data: {
-    //             start_date: start_date,
-    //             end_date: end_date
-    //         },
-    //         dataType: "json",
-    //         success: function (data) {
-    //             // Datatables
-    //             var i = 1;
-    //             $('#myTable').DataTable({
-    //                 "data": data.students,
-    //                 // responsive
-    //                 "responsive": true,
-    //                 "columns": [{
-    //                         "data": "id",
-    //                         "render": function (data, type, row, meta) {
-    //                             return i++;
-    //                         }
-    //                     },
-    //                     {
-    //                         "data": "name"
-    //                     },
-    //                     {
-    //                         "data": "standard",
-    //                         "render": function (data, type, row, meta) {
-    //                             return `${row.standard}th Standard`;
-    //                         }
-    //                     },
-    //                     {
-    //                         "data": "percentage",
-    //                         "render": function (data, type, row, meta) {
-    //                             return `${row.percentage}%`;
-    //                         }
-    //                     },
-    //                     {
-    //                         "data": "result"
-    //                     },
-    //                     {
-    //                         "data": "created_at",
-    //                         "render": function (data, type, row, meta) {
-    //                             return moment(row.created_at).format('DD-MM-YYYY');
-    //                         }
-    //                     }
-    //                 ]
-    //             });
-    //         }
-    //     });
-
-    // }
-    // fetch();
-    // // Filter
-    // $(document).on("click", "#filter", function (e) {
-    //     e.preventDefault();
-    //     var start_date = $("#start_date").val();
-    //     var end_date = $("#end_date").val();
-    //     if (start_date == "" || end_date == "") {
-    //         alert("Both date required");
-    //     } else {
-    //         $('#myTable').DataTable().destroy();
-    //         fetch(start_date, end_date);
-    //     }
-    // });
-    // $(document).ready(function () {
-    //     var table = $('#myTable').DataTable({
-    //         processing: true,
-    //         serverSide: true,
-    //         ajax: {
-    //             url: "{{ route('posts.records') }}",
-    //             data: function (d) {
-    //                 d.start_date = $('#start_date').val();
-    //                 d.end_date = $('#end_date').val();
-    //             }
-    //         },
-    //         columns: [{
-    //                 data: 'id',
-    //                 name: 'id'
-    //             },
-    //             {
-    //                 data: 'name',
-    //                 name: 'name'
-    //             },
-    //             {
-    //                 data: 'created_at',
-    //                 name: 'created_at'
-    //             },
-    //         ]
-    //     });
-
-    //     $('#filter').click(function () {
-    //         table.draw();
-    //     });
-
-    //     $('#reset').click(function () {
-    //         $('#start_date').val('');
-    //         $('#end_date').val('');
-    //         table.draw();
-    //     });
-
-    //     $('#start_date, #end_date').datepicker({
-    //         format: 'yyyy-mm-dd',
-    //         autoclose: true
-    //     });
-    // });
-
 </script>
 @endsection

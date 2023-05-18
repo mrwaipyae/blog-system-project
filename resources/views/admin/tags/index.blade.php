@@ -9,12 +9,17 @@
     use Carbon\Carbon;
     $no = 1;
 @endphp
+<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#" class="fw-bold">Admin</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><span class="fw-bold">Topic<span></li>
+        </ol>
+    </nav>
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12 p-3">
             <!-- Tag navigation -->
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <h3 class="mb-0 ">Topic</h3>
+            <div class="d-flex justify-content-between align-items-center mb-4">         
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addTagModal">
                     <i class="bi bi-plus-square me-2"></i>New Topic
                 </button>
@@ -97,7 +102,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editTagModalLabel">Edit Tag</h5>
+                                            <h5 class="modal-title" id="editTagModalLabel">Edit Topic</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true"><i class="fas fa-times"></i></span>
                                             </button>
@@ -113,7 +118,7 @@
                                                     <input type="text" class="form-control" id="name" name="name"
                                                         value="{{ $tag->name }}">
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
                                             </form>
                                         </div>
                                     </div>
@@ -125,17 +130,15 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel">Delete Tag</h5>
+                                            <h5 class="modal-title" id="deleteModalLabel">Delete Topic</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true"><i class="fas fa-times"></i></span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Are you sure you want to delete this tag?
+                                            Are you sure you want to delete this Topic?
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Cancel</button>
                                             <form
                                                 action="{{ route('admin.tags.destroy', $tag->id) }}"
                                                 method="POST">
@@ -143,6 +146,8 @@
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Delete</button>
                                             </form>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +165,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addTagModalLabel">Add New Tag</h5>
+                <h5 class="modal-title" id="addTagModalLabel">Add New Topic</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>

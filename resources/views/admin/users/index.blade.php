@@ -9,8 +9,13 @@
     use Carbon\Carbon;
     $no = 1;
 @endphp
-<div class="container mt-4">
-    <h1 class="mb-5">Users</h1>
+<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#" class="fw-bold">Admin</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><span class="fw-bold">Users<span></li>
+        </ol>
+    </nav>
+<div class="container mt-4 py-4">
     <!-- date input -->
     <table class="row mb-2">
         <div class="col-12">
@@ -71,7 +76,7 @@
                                     class="fa fa-eye text-info"></i></button>
                         </form>
 
-                        <form action="" method="POST" style="display: inline-block;">
+                        <form action="{{route('admin.users.destroy',$user->id)}}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn"

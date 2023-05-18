@@ -174,7 +174,7 @@
                                                                 <input type="text" class="form-control" id="name"
                                                                     name="comment" value="{{ $comment->content }}">
                                                             </div>
-                                                            <button type="submit" class="btn btn-primary">Save
+                                                            <button type="submit" class="btn btn-primary mt-2">Save
                                                                 Changes</button>
                                                         </form>
                                                     </div>

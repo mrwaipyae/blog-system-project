@@ -10,7 +10,11 @@
                         <div class="mb-4">
                             <div class="row">
                                 <div class="col-md-8">
+                                    <small class="text-muted me-2">
+                                        {{ $post->created_at->diffForHumans() }}
+                                    </small>
                                     <div class="d-flex align-items-center mb-2">
+
                                         <a
                                             href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}">
                                             <img src="{{ $post->user->profile_image ? asset('storage/profile_images/' . $post->user->profile_image) : 'https://example.com/default-profile-image.jpg' }}"
@@ -36,15 +40,16 @@
                                         </p>
                                     </a>
                                     <div class="d-flex align-items-center">
-                                        <span class="text-muted me-2">
-                                            {{ date('F j', strtotime($post->created_at)) }}
-                                        </span>
+
                                         @foreach ($post->tags as $tag)
                                             <a href="{{ route('tag.show', $tag->name) }}"
-                                                class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0 mx-1">
+                                                class="btn btn-secondary btn-sm rounded-pill px-2 py-0 mx-1">
                                                 {{ $tag->name }}
                                             </a>
                                         @endforeach
+                                        <i class="bi bi-dot text-secondary"></i>
+                                        <span id="reading-time{{ $post->id }}"
+                                            class="text-secondary fs-6 me-2">{{ $post->readingTime }} min read</span>
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-center">
