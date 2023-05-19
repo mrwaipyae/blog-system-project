@@ -10,11 +10,10 @@
                         <div class="mb-4">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <small class="text-muted me-2">
+                                    <span class="text-muted mb-3">
                                         {{ $post->created_at->diffForHumans() }}
-                                    </small>
+                                    </span>
                                     <div class="d-flex align-items-center mb-2">
-
                                         <a
                                             href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($post->user->name)), $post->user->id]) }}">
                                             <img src="{{ $post->user->profile_image ? asset('storage/profile_images/' . $post->user->profile_image) : 'https://example.com/default-profile-image.jpg' }}"
@@ -43,7 +42,7 @@
 
                                         @foreach ($post->tags as $tag)
                                             <a href="{{ route('tag.show', $tag->name) }}"
-                                                class="btn btn-secondary btn-sm rounded-pill px-2 py-0 mx-1">
+                                                class="btn btn-secondary btn-sm rounded-pill px-2 py-0 me-2">
                                                 {{ $tag->name }}
                                             </a>
                                         @endforeach
@@ -72,10 +71,20 @@
                             <ul class="list-unstyled">
                                 @foreach ($popularPosts as $popularPost)
                                     <li class="mb-2 py-2">
-                                        <img src="{{ asset('storage/profile_images/' . $popularPost->user->profile_image) }}"
-                                            alt="User Profile" class="rounded-circle me-2" width="20" height="20">
-                                        <span class="text-dark me-3">{{ $popularPost->user->name }}</span>
-                                        <a href="" class="text-dark text-decoration-none">
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($popularPost->user->name)), $popularPost->user->id]) }}"
+                                                class="">
+                                                <img src="{{ asset('storage/profile_images/' . $popularPost->user->profile_image) }}"
+                                                    alt="User Profile" class="rounded-circle me-2" width="20"
+                                                    height="20">
+                                            </a>
+                                            <a href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($popularPost->user->name)), $popularPost->user->id]) }}"
+                                                class="nav-link d-inline">
+                                                <small class="text-dark fw-medium">{{ $popularPost->user->name }}</small>
+                                            </a>
+                                        </div>
+                                        <a href="{{ route('post.view', ['@' . str_replace(' ', '', strtolower($popularPost->user->name)), Str::slug($popularPost->title) . '-' . $popularPost->id]) }}"
+                                            class="text-dark text-decoration-none">
                                             <p class="fs-6 fw-medium py-0 my-0">{{ $popularPost->title }}</p>
                                         </a>
                                         <small>{{ $popularPost->created_at->diffForHumans() }}</small>
@@ -101,16 +110,18 @@
                             <ul class="list-unstyled">
                                 @foreach ($recentPosts as $recentPost)
                                     <li class="mb-1 py-2">
-                                        <a href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($recentPost->user->name)), $recentPost->user->id]) }}"
-                                            class="nav-link d-inline">
-                                            <img src="{{ asset('storage/profile_images/' . $recentPost->user->profile_image) }}"
-                                                alt="User Profile" class="rounded-circle me-2" width="20"
-                                                height="20">
-                                        </a>
-                                        <a href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($recentPost->user->name)), $recentPost->user->id]) }}"
-                                            class="nav-link d-inline">
-                                            <small class="text-dark fw-medium">{{ $recentPost->user->name }}</small>
-                                        </a>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($recentPost->user->name)), $recentPost->user->id]) }}"
+                                                class="">
+                                                <img src="{{ asset('storage/profile_images/' . $recentPost->user->profile_image) }}"
+                                                    alt="User Profile" class="rounded-circle me-2" width="20"
+                                                    height="20">
+                                            </a>
+                                            <a href="{{ route('user.posts', ['@' . str_replace(' ', '', strtolower($recentPost->user->name)), $recentPost->user->id]) }}"
+                                                class="nav-link d-inline">
+                                                <small class="text-dark fw-medium">{{ $recentPost->user->name }}</small>
+                                            </a>
+                                        </div>
                                         <a href="{{ route('post.view', ['@' . str_replace(' ', '', strtolower($recentPost->user->name)), Str::slug($recentPost->title) . '-' . $recentPost->id]) }}"
                                             class="text-dark text-decoration-none">
                                             <p class="fs-6 fw-medium pt-1 pb-0 mb-0">{{ $recentPost->title }}</p>
